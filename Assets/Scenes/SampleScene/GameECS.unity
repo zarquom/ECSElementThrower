@@ -151,7 +151,7 @@ MonoBehaviour:
   _bulletPrefabs:
   - {fileID: 3969580432948982012, guid: ad3f9d771e8084f4a82a4402b075ae07, type: 3}
   - {fileID: 2779631696019403757, guid: b509e5171c6276c4b911f9afc4f3fad6, type: 3}
-  _bulletCount: 200
+  _bulletCount: 400
 --- !u!4 &640062338
 Transform:
   m_ObjectHideFlags: 0

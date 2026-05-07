@@ -2,6 +2,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Entities.UniversalDelegates;
 using Unity.Mathematics;
 using Unity.Transforms;
 [BurstCompile]
@@ -13,32 +14,45 @@ public partial struct BulletMovementSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        _bulletEntityQuery = SystemAPI.QueryBuilder().WithAll<BulletComponentData>().WithAll<LocalTransform>().Build();
+        state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
+        _bulletEntityQuery = SystemAPI.QueryBuilder().WithAll<LocalTransform>().WithAspect<BulletAspect>().Build();
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        NativeArray<Entity> bulletEntities = _bulletEntityQuery.ToEntityArray(Allocator.Temp);
-        NativeArray<LocalTransform> localTransforms = _bulletEntityQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
-
         float deltaTime = SystemAPI.Time.DeltaTime;
-        for (int i = 0; i < bulletEntities.Length; i++){
-            Entity bulletEntity = bulletEntities[i];
-            LocalTransform localTransform = localTransforms[i];
-            BulletAspect bulletAspect = SystemAPI.GetAspect<BulletAspect>(bulletEntity);
-
-            float3 newBulletPosition = localTransform.Position + bulletAspect.BulletDirection * bulletAspect.BulletSpeed * deltaTime;
-            LocalTransform updatedTransform = LocalTransform.FromPositionRotationScale(newBulletPosition,localTransform.Rotation, localTransform.Scale);
-
-            // Apply the updated transform back to the entity
-            state.EntityManager.SetComponentData(bulletEntity, updatedTransform);
-        }
-        bulletEntities.Dispose();
-        localTransforms.Dispose();
+        new BulletMovementJob
+        {
+            DeltaTime = deltaTime,
+            Ecb = GetEntityCommandBuffer(ref state)
+        }.Schedule(_bulletEntityQuery);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
     {
 
+    }
+
+    [BurstCompile]
+    private EntityCommandBuffer.ParallelWriter GetEntityCommandBuffer(ref SystemState state)
+    {
+        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+        return ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
+    }
+}
+
+[BurstCompile]
+public partial struct BulletMovementJob : IJobEntity
+{
+    public EntityCommandBuffer.ParallelWriter Ecb;
+    public float DeltaTime;
+    [BurstCompile]
+    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, in LocalTransform localTransform, BulletAspect bulletAspect)
+    {
+            float3 newBulletPosition = localTransform.Position + bulletAspect.BulletDirection * bulletAspect.BulletSpeed * DeltaTime;
+            LocalTransform updatedTransform = LocalTransform.FromPositionRotationScale(newBulletPosition, localTransform.Rotation, localTransform.Scale);
+
+            // Apply the updated transform back to the entity
+            Ecb.SetComponent(chunkIndexinQuery, bulletEntity, updatedTransform);
     }
 }
