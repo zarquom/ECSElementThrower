@@ -1,6 +1,7 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -18,8 +19,7 @@ public partial struct PlayerMovementSystem : ISystem
     {
         new PlayerMovementJob
         {
-            Ecb = GetEntityCommandBuffer(ref state),
-            DeltaTime = SystemAPI.Time.DeltaTime
+            Ecb = GetEntityCommandBuffer(ref state)
         }.Schedule();
     }
 
@@ -40,22 +40,34 @@ public partial struct PlayerMovementSystem : ISystem
 public partial struct PlayerMovementJob : IJobEntity
 {
     public EntityCommandBuffer Ecb;
-    public float DeltaTime;
-    private void Execute(Entity player, in LocalTransform localTransform, in PlayerComponentData playerComp, in PlayerMovementComponentData playerMovement)
+    private void Execute(Entity player, in LocalTransform localTransform, in PhysicsVelocity playerVelocity, in PlayerComponentData playerComp, in PlayerMovementComponentData playerMovement)
     {
         if (playerMovement.Direction == 0f)
         {
             return;
         }
 
-        float3 newPosition = localTransform.Position;
-        newPosition.x += playerMovement.Direction * playerComp.Speed * DeltaTime;
+        SetRotation(player, localTransform, playerComp, playerMovement);
+        SetVelocity(player, playerVelocity, playerComp, playerMovement);
+    }
+    [BurstCompile]
+    private void SetRotation(Entity player, LocalTransform localTransform, PlayerComponentData playerComp, PlayerMovementComponentData playerMovement)
+    {
         quaternion newRotation = playerMovement.Direction > 0f ? new quaternion(x: 0, y: 0, z: 0, w: 1) : new quaternion(x: 0, y: 1, z: 0, w: 0);
         Ecb.SetComponent(player, new LocalTransform
         {
-            Position = newPosition,
+            Position = localTransform.Position,
             Rotation = newRotation,
             Scale = localTransform.Scale
+        });
+    }
+    [BurstCompile]
+    private void SetVelocity(Entity player, PhysicsVelocity playerVelocity, PlayerComponentData playerComp, PlayerMovementComponentData playerMovement)
+    {
+        float3 linearVelocity = new float3(playerComp.Speed * playerMovement.Direction, playerVelocity.Linear.y, playerVelocity.Linear.z);
+        Ecb.SetComponent(player, new PhysicsVelocity
+        {
+            Linear = linearVelocity
         });
     }
 }
