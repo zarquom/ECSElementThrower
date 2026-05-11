@@ -1,7 +1,9 @@
-﻿using Unity.Burst;
+﻿using System;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Physics.Extensions;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -40,8 +42,17 @@ public partial struct PlayerMovementSystem : ISystem
 public partial struct PlayerMovementJob : IJobEntity
 {
     public EntityCommandBuffer Ecb;
-    private void Execute(Entity player, in LocalTransform localTransform, in PhysicsVelocity playerVelocity, in PlayerComponentData playerComp, in PlayerMovementComponentData playerMovement)
+    private void Execute(Entity player, in LocalTransform localTransform, ref PhysicsVelocity playerVelocity, in PhysicsMass mass, in PlayerComponentData playerComp, ref PlayerMovementComponentData playerMovement)
     {
+        if (!playerMovement.IsGrounded)
+        {
+            return;
+        }
+        if (playerMovement.IsJump)
+        {
+            HandleJump(ref playerVelocity, mass, player, playerComp, ref playerMovement);
+            return;
+        }
         if (playerMovement.Direction == 0f)
         {
             return;
@@ -50,6 +61,14 @@ public partial struct PlayerMovementJob : IJobEntity
         SetRotation(player, localTransform, playerComp, playerMovement);
         SetVelocity(player, playerVelocity, playerComp, playerMovement);
     }
+
+    [BurstCompile]
+    private void HandleJump(ref PhysicsVelocity velocity, PhysicsMass mass, Entity player, PlayerComponentData playerComp, ref PlayerMovementComponentData playerMovement)
+    {
+        velocity.ApplyLinearImpulse(mass, playerComp.JumpForce * math.up());
+        playerMovement.IsJump = false;
+    }
+
     [BurstCompile]
     private void SetRotation(Entity player, LocalTransform localTransform, PlayerComponentData playerComp, PlayerMovementComponentData playerMovement)
     {
