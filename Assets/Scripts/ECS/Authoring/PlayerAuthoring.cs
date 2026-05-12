@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerAuthoring : MonoBehaviour
 {
+    [SerializeField] private GameObject _playerVisualization;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
 
     public float Speed => _speed;
     public float JumpForce => _jumpForce;
+    public GameObject PlayerVisualization => _playerVisualization;
 }
 
 public class PlayerBaker : Baker<PlayerAuthoring>
@@ -24,6 +26,10 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         AddComponent(entity, new PlayerMovementComponentData
         {
             Direction = 0f
+        });
+        AddComponentObject(entity, new PlayerVisualizationComponentData
+        {
+            PlayerVisualization = authoring.PlayerVisualization
         });
     }
 }

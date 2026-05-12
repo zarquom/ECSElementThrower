@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb54ea4f67dc17342bcd49954c53502d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Physics.Hybrid::Unity.Physics.Authoring.PhysicsDebugDisplayAuthoring
-  DrawColliders: 1
+  DrawColliders: 0
   DrawColliderEdges: 0
   DrawColliderAabbs: 0
   DrawMassProperties: 0
@@ -332,7 +332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3993786971112006158, guid: 731d21e3be9e6cf418f67b17e516585c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -29.36
+      value: -29.05
       objectReference: {fileID: 0}
     - target: {fileID: 3993786971112006158, guid: 731d21e3be9e6cf418f67b17e516585c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -505,7 +505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3993786971112006158, guid: 731d21e3be9e6cf418f67b17e516585c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.77
+      value: 28.8
       objectReference: {fileID: 0}
     - target: {fileID: 3993786971112006158, guid: 731d21e3be9e6cf418f67b17e516585c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -690,8 +690,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
+      propertyPath: m_Cylinder.Axis
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Cylinder.Height
-      value: 1.27
+      value: 6.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
+      propertyPath: m_Cylinder.Radius
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_PrimitiveSize.z
@@ -701,17 +709,21 @@ PrefabInstance:
       propertyPath: m_PrefabInstanceID
       value: 3905984095
       objectReference: {fileID: 0}
-    - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
-      propertyPath: m_ConvexHullGenerationParameters.m_BevelRadius
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3394180487456136797, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: _jumpForce
-      value: 75
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4783005947449003154, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
+      propertyPath: m_GravityFactor
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_InertiaTensor.x
