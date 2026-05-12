@@ -14,7 +14,7 @@ public partial struct PlayerAnimationCleanupSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         _playerAnimationEntityQuery = SystemAPI.QueryBuilder()
-        .WithAll<PlayerAnimationComponentData>()
+        .WithAll<PlayerManagedComponentData>()
         .WithNone<PlayerComponentData, LocalTransform>()
         .Build();
         state.RequireForUpdate(_playerAnimationEntityQuery);
@@ -24,10 +24,10 @@ public partial struct PlayerAnimationCleanupSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         var playerAnimationEntity = _playerAnimationEntityQuery.GetSingletonEntity();
-        var playerAnimationComponentData = _playerAnimationEntityQuery.GetSingleton<PlayerAnimationComponentData>();
+        var playerAnimationComponentData = _playerAnimationEntityQuery.GetSingleton<PlayerManagedComponentData>();
 
         Object.Destroy(playerAnimationComponentData.AnimatorData.gameObject);
-        GetEntityCommandBuffer(ref state).RemoveComponent<PlayerAnimationComponentData>(playerAnimationEntity);
+        GetEntityCommandBuffer(ref state).RemoveComponent<PlayerManagedComponentData>(playerAnimationEntity);
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

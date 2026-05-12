@@ -15,7 +15,7 @@ public partial struct PlayerAnimatorSystem :ISystem
         _playerEntityQuery = SystemAPI.QueryBuilder()
         .WithAll<LocalTransform>()
         .WithAll<PlayerMovementComponentData>()
-        .WithAll<PlayerAnimationComponentData>()
+        .WithAll<PlayerManagedComponentData>()
         .Build();
         state.RequireForUpdate(_playerEntityQuery);
     }
@@ -24,7 +24,7 @@ public partial struct PlayerAnimatorSystem :ISystem
     {
         var playerLocalTransform = _playerEntityQuery.GetSingleton<LocalTransform>();
         var playerMovementData = _playerEntityQuery.GetSingleton<PlayerMovementComponentData>();
-        var playerAnimationData = _playerEntityQuery.GetSingleton<PlayerAnimationComponentData>();
+        var playerAnimationData = _playerEntityQuery.GetSingleton<PlayerManagedComponentData>();
 
         var transform = playerAnimationData.AnimatorData.transform;
         transform.position = playerLocalTransform.Position;

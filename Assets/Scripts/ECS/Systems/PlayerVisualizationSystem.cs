@@ -13,7 +13,7 @@ public partial struct PlayerVisualizationSystem : ISystem
     {
         _playerEntityQuery = SystemAPI.QueryBuilder()
             .WithAll<PlayerVisualizationComponentData>()
-            .WithNone<PlayerAnimationComponentData>()
+            .WithNone<PlayerManagedComponentData>()
             .Build();
         state.RequireForUpdate(_playerEntityQuery);
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
@@ -27,18 +27,12 @@ public partial struct PlayerVisualizationSystem : ISystem
 
         var playerVisualizationGameObject = Object.Instantiate(playerVisualizationComponentData.PlayerVisualization);
 
-        var ecb = GetEntityCommandBuffer(ref state);
-        ecb.AddComponent(playerEntity, new PlayerAnimationComponentData
+        state.EntityManager.AddComponentObject(playerEntity, new PlayerManagedComponentData
         {
-            AnimatorData = playerVisualizationGameObject.GetComponent<Animator>()
+            AnimatorData = playerVisualizationGameObject.GetComponent<Animator>(),
+            GameObjectData = playerVisualizationGameObject.gameObject,
+            TransformData = playerVisualizationGameObject.transform
         });
-    }
-
-    [BurstCompile]
-    private EntityCommandBuffer GetEntityCommandBuffer(ref SystemState state)
-    {
-        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-        return ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
     }
 
     [BurstCompile]

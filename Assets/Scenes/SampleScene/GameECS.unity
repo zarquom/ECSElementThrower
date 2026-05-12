@@ -691,15 +691,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Cylinder.Axis
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Cylinder.Height
-      value: 6.66
+      value: 1.27
       objectReference: {fileID: 0}
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Cylinder.Radius
-      value: 1.93
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 2894672525100079973, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_PrimitiveSize.z
@@ -709,21 +709,9 @@ PrefabInstance:
       propertyPath: m_PrefabInstanceID
       value: 3905984095
       objectReference: {fileID: 0}
-    - target: {fileID: 3394180487456136797, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
-      propertyPath: _jumpForce
-      value: 150
-      objectReference: {fileID: 0}
     - target: {fileID: 4783005947449003154, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
-      propertyPath: m_Mass
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
-      propertyPath: m_GravityFactor
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6346658322961013563, guid: 1b213e95d9d13a64b89c2035d0573b71, type: 3}
       propertyPath: m_InertiaTensor.x

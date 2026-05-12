@@ -8,6 +8,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 [BurstCompile]
+[UpdateInGroup(typeof(SimulationSystemGroup))]
 public partial struct PlayerMovementSystem : ISystem
 {
     [BurstCompile]

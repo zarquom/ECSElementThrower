@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAuthoring
   _playerVisualization: {fileID: 674121653266197955, guid: 40ae53b3cd994ab458b1baeb5370830c, type: 3}
-  _speed: 5
-  _jumpForce: 150
+  _speed: 10
+  _jumpForce: 500
 --- !u!114 &6346658322961013563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  m_GravityFactor: 3
+  m_GravityFactor: 10
   m_OverrideDefaultMassDistribution: 1
   m_CenterOfMass:
     x: 0
@@ -120,8 +120,8 @@ MonoBehaviour:
     y: -0.1
     z: 0
   m_PrimitiveSize:
-    x: 6.66
-    y: 3.86
+    x: 5.4
+    y: 4.02
     z: 0
   m_PrimitiveOrientation:
     Value:
@@ -130,15 +130,15 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 6.66
-    Radius: 1.93
+    Height: 5.4
+    Radius: 2.01
     Axis: 0
   m_Cylinder:
     Height: 0
-    Radius: 3.33
+    Radius: 2.7
     Axis: 2
   m_CylinderSideCount: 20
-  m_SphereRadius: 3.33
+  m_SphereRadius: 2.7
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
