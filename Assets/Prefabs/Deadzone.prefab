@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4783005947449003154
+--- !u!1 &6064841965355583541
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8532309583168198816}
-  - component: {fileID: 3394180487456136797}
-  - component: {fileID: 6346658322961013563}
-  - component: {fileID: 2894672525100079973}
+  - component: {fileID: 3340429716612300256}
+  - component: {fileID: 9102636920868034706}
+  - component: {fileID: 5305709112091817018}
+  - component: {fileID: 9078285115787624019}
+  - component: {fileID: 867899734754454378}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Deadzone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8532309583168198816
+--- !u!4 &3340429716612300256
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4783005947449003154}
+  m_GameObject: {fileID: 6064841965355583541}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,95 +35,87 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3394180487456136797
-MonoBehaviour:
+--- !u!33 &9102636920868034706
+MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4783005947449003154}
+  m_GameObject: {fileID: 6064841965355583541}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &5305709112091817018
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6064841965355583541}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0836cbcb81b16f142b67e4ba4ef5578a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAuthoring
-  _playerVisualization: {fileID: 674121653266197955, guid: 40ae53b3cd994ab458b1baeb5370830c, type: 3}
-  _speed: 10
-  _jumpForce: 500
---- !u!114 &6346658322961013563
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 56f99b8987ac0bd4981ca92e55bb4e30, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9078285115787624019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4783005947449003154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Physics.Custom::Unity.Physics.Authoring.PhysicsBodyAuthoring
-  m_MotionType: 0
-  m_Smoothing: 0
-  m_Mass: 10
-  m_LinearDamping: 0.01
-  m_AngularDamping: 0.05
-  m_InitialLinearVelocity:
-    x: 0
-    y: 0
-    z: 0
-  m_InitialAngularVelocity:
-    x: 0
-    y: 0
-    z: 0
-  m_GravityFactor: 10
-  m_OverrideDefaultMassDistribution: 1
-  m_CenterOfMass:
-    x: 0
-    y: 0
-    z: 0
-  m_Orientation:
-    Value:
-      x: 0
-      y: 0
-      z: 0
-    RotationOrder: 4
-  m_InertiaTensor:
-    x: Infinity
-    y: Infinity
-    z: Infinity
-  m_WorldIndex: 0
-  m_CustomTags:
-    Tag00: 0
-    Tag01: 0
-    Tag02: 0
-    Tag03: 0
-    Tag04: 0
-    Tag05: 0
-    Tag06: 0
-    Tag07: 0
---- !u!114 &2894672525100079973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4783005947449003154}
+  m_GameObject: {fileID: 6064841965355583541}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Physics.Custom::Unity.Physics.Authoring.PhysicsShapeAuthoring
-  m_ForceUniqueID: 1015682353
+  m_ForceUniqueID: 1387656085
   m_PrefabInstanceID: 0
   m_ShapeType: 0
   m_PrimitiveCenter:
-    x: -0.5
-    y: -0.1
+    x: 0
+    y: 0
     z: 0
   m_PrimitiveSize:
-    x: 5.4
-    y: 4.02
-    z: 0
+    x: 1
+    y: 1
+    z: 1
   m_PrimitiveOrientation:
     Value:
       x: -0
@@ -130,22 +123,22 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 5.4
-    Radius: 2.01
-    Axis: 0
+    Height: 1
+    Radius: 0.5
+    Axis: 1
   m_Cylinder:
-    Height: 0
-    Radius: 2.7
+    Height: 1
+    Radius: 0.5
     Axis: 2
   m_CylinderSideCount: 20
-  m_SphereRadius: 2.7
+  m_SphereRadius: 0.5
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
-    m_BevelRadius: 0.6
+    m_BevelRadius: 0.05
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 0}
-  m_ForceUnique: 1
+  m_ForceUnique: 0
   m_Material:
     m_SupportsTemplate: 1
     m_Template: {fileID: 0}
@@ -160,7 +153,7 @@ MonoBehaviour:
       m_Override: 0
       m_Value:
         Value: 0.5
-        CombineMode: 2
+        CombineMode: 0
     m_Restitution:
       m_Override: 0
       m_Value:
@@ -169,9 +162,9 @@ MonoBehaviour:
     m_BelongsToCategories:
       m_Override: 0
       m_Value:
-        Category00: 1
+        Category00: 0
         Category01: 0
-        Category02: 0
+        Category02: 1
         Category03: 0
         Category04: 0
         Category05: 0
@@ -204,9 +197,9 @@ MonoBehaviour:
     m_CollidesWithCategories:
       m_Override: 0
       m_Value:
-        Category00: 0
-        Category01: 1
-        Category02: 1
+        Category00: 1
+        Category01: 0
+        Category02: 0
         Category03: 0
         Category04: 0
         Category05: 0
@@ -249,3 +242,54 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 3
+--- !u!114 &867899734754454378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6064841965355583541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Physics.Custom::Unity.Physics.Authoring.PhysicsBodyAuthoring
+  m_MotionType: 2
+  m_Smoothing: 0
+  m_Mass: 1
+  m_LinearDamping: 0.01
+  m_AngularDamping: 0.05
+  m_InitialLinearVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_InitialAngularVelocity:
+    x: 0
+    y: 0
+    z: 0
+  m_GravityFactor: 1
+  m_OverrideDefaultMassDistribution: 0
+  m_CenterOfMass:
+    x: 0
+    y: 0
+    z: 0
+  m_Orientation:
+    Value:
+      x: 0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_InertiaTensor:
+    x: 0.4
+    y: 0.4
+    z: 0.4
+  m_WorldIndex: 0
+  m_CustomTags:
+    Tag00: 0
+    Tag01: 0
+    Tag02: 0
+    Tag03: 0
+    Tag04: 0
+    Tag05: 0
+    Tag06: 0
+    Tag07: 0

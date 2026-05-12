@@ -21,7 +21,8 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         AddComponent(entity, new PlayerComponentData
         {
             Speed = authoring.Speed,
-            JumpForce = authoring.JumpForce
+            JumpForce = authoring.JumpForce,
+            IsDead = false
         });
         AddComponent(entity, new PlayerMovementComponentData
         {
