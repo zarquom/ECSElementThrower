@@ -4,7 +4,7 @@ using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Localization;
 
-public class GameOverController : MonoBehaviour
+public class GameOverWindowController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject _container;

@@ -30,6 +30,10 @@ MonoBehaviour:
     m_Localized: Atras
     m_Metadata:
       m_Items: []
+  - m_Id: 309151594102784
+    m_Localized: Siguiente Nivel
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

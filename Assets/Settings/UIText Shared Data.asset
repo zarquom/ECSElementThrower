@@ -15,16 +15,20 @@ MonoBehaviour:
   m_TableCollectionName: UIText
   m_TableCollectionNameGuidString: a98895048ddcb4e489cfec3733ce7439
   m_Entries:
-  - m_Id: 12573655040
-    m_Key: wingame
+  - m_Id: 7631237464064
+    m_Key: back_to_menu
     m_Metadata:
       m_Items: []
   - m_Id: 34887352320
     m_Key: lostgame
     m_Metadata:
       m_Items: []
-  - m_Id: 7631237464064
-    m_Key: back_to_menu
+  - m_Id: 309151594102784
+    m_Key: NextLevel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12573655040
+    m_Key: wingame
     m_Metadata:
       m_Items: []
   m_Metadata:
