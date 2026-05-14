@@ -8,7 +8,6 @@ public class BulletSpawnerAuthoring : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _bulletPrefabs;
     [SerializeField] private int _bulletCount;
-    public uint InitialIndex => (uint) new System.Random().Next(1, int.MaxValue);
     public List<GameObject> BulletPrefabs => _bulletPrefabs;
     public int BulletCount => _bulletCount;
 }
@@ -28,8 +27,7 @@ public class BulletSpawnerBaker : Baker<BulletSpawnerAuthoring>
         }
         AddComponent(entity, new BulletSpawnerComponentData
         {
-            Instance = new Unity.Mathematics.Random(authoring.InitialIndex),
-            BulletCount = authoring.BulletCount,
+            BulletCount = authoring.BulletCount
         });
     }
 }

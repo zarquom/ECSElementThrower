@@ -15,7 +15,7 @@ public partial struct BulletMovementSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
-        _bulletEntityQuery = SystemAPI.QueryBuilder().WithAll<LocalTransform>().WithAspect<BulletAspect>().Build();
+        _bulletEntityQuery = SystemAPI.QueryBuilder().WithAll<LocalTransform>().WithAll<BulletComponentData>().Build();
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
@@ -47,9 +47,9 @@ public partial struct BulletMovementJob : IJobEntity
     public EntityCommandBuffer.ParallelWriter Ecb;
     public float DeltaTime;
     [BurstCompile]
-    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, in LocalTransform localTransform, BulletAspect bulletAspect)
+    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, in LocalTransform localTransform, BulletComponentData bulletComponentData)
     {
-            float3 newBulletPosition = localTransform.Position + bulletAspect.BulletDirection * bulletAspect.BulletSpeed * DeltaTime;
+            float3 newBulletPosition = localTransform.Position + bulletComponentData.BulletDirection * bulletComponentData.BulletSpeed * DeltaTime;
             LocalTransform updatedTransform = LocalTransform.FromPositionRotationScale(newBulletPosition, localTransform.Rotation, localTransform.Scale);
 
             // Apply the updated transform back to the entity
