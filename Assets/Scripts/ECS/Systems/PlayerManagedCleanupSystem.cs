@@ -7,24 +7,24 @@ using UnityEngine;
 
 [BurstCompile]
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-public partial struct PlayerAnimationCleanupSystem : ISystem
+public partial struct PlayerManagedCleanupSystem : ISystem
 {
-    private EntityQuery _playerAnimationEntityQuery;
+    private EntityQuery _playerManagedEntityQuery;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        _playerAnimationEntityQuery = SystemAPI.QueryBuilder()
+        _playerManagedEntityQuery = SystemAPI.QueryBuilder()
         .WithAll<PlayerManagedComponentData>()
         .WithNone<PlayerComponentData, LocalTransform>()
         .Build();
-        state.RequireForUpdate(_playerAnimationEntityQuery);
+        state.RequireForUpdate(_playerManagedEntityQuery);
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        var playerAnimationEntity = _playerAnimationEntityQuery.GetSingletonEntity();
-        var playerAnimationComponentData = _playerAnimationEntityQuery.GetSingleton<PlayerManagedComponentData>();
+        var playerAnimationEntity = _playerManagedEntityQuery.GetSingletonEntity();
+        var playerAnimationComponentData = _playerManagedEntityQuery.GetSingleton<PlayerManagedComponentData>();
 
         Object.Destroy(playerAnimationComponentData.AnimatorData.gameObject);
         GetEntityCommandBuffer(ref state).RemoveComponent<PlayerManagedComponentData>(playerAnimationEntity);

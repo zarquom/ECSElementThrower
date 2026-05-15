@@ -10,7 +10,6 @@ public partial class InputSystem : SystemBase
     protected override void OnCreate()
     {
         _inputControls = new InputControls();
-        _inputControls.Enable();
         var playerInputSystem = EntityManager.World.CreateSystemManaged<PlayerInputSystem>();
         playerInputSystem.SetPlayerMapActions(_inputControls.PlayerMap);
     }
@@ -21,6 +20,12 @@ public partial class InputSystem : SystemBase
         _levelSystem = EntityManager.World.GetExistingSystemManaged<LevelSystem>();
         _gameOverSystem.GameOver += OnGameOverEvent;
         _levelSystem.NextLevel += OnNextLevelEvent;
+        _levelSystem.LevelLoaded += OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded()
+    {
+        _inputControls.Enable();
     }
 
     private void OnNextLevelEvent()
@@ -36,6 +41,7 @@ public partial class InputSystem : SystemBase
     {
         _gameOverSystem.GameOver -= OnGameOverEvent;
         _levelSystem.NextLevel -= OnNextLevelEvent;
+        _levelSystem.LevelLoaded -= OnLevelLoaded;
     }
     protected override void OnUpdate()
     {

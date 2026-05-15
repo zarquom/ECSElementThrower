@@ -34,6 +34,14 @@ MonoBehaviour:
     m_Localized: Siguiente Nivel
     m_Metadata:
       m_Items: []
+  - m_Id: 1079485071015936
+    m_Localized: Empezar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1079493052776448
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -18,11 +18,15 @@ public partial class PlayerCameraSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        if(_playerCamera != null)
+        if(_playerCamera == null)
+        {
+            _playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CinemachineCamera>();
+        }
+        if (_playerCamera.Follow != null)
         {
             return;
         }
-        _playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CinemachineCamera>();
+
         var playerManagedComponentData = _playerEntityQuery.GetSingleton<PlayerManagedComponentData>();
         _playerCamera.Follow = playerManagedComponentData.TransformData;
     }

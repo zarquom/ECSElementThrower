@@ -31,6 +31,14 @@ MonoBehaviour:
     m_Key: wingame
     m_Metadata:
       m_Items: []
+  - m_Id: 1079485071015936
+    m_Key: StartGame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1079493052776448
+    m_Key: Quit
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

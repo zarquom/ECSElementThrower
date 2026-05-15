@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4715635283912775584, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
       propertyPath: m_Name
-      value: Nexte Level Button
+      value: Next Level Button
       objectReference: {fileID: 0}
     - target: {fileID: 5299712087367956280, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -158,6 +158,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8905745422778370491}
   m_SourcePrefab: {fileID: 100100000, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
+--- !u!114 &3566498955810441232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8102263836768367725, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
+  m_PrefabInstance: {fileID: 4688170174672567421}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &4319562625388101928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8862400982395370837, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
@@ -181,3 +192,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NextLevelWindowController
   _container: {fileID: 4319562625388101928}
+  _nextLevelButton: {fileID: 3566498955810441232}
