@@ -22,7 +22,7 @@ public partial class PlayerCameraSystem : SystemBase
         {
             _playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CinemachineCamera>();
         }
-        if (_playerCamera.Follow != null)
+        if (_playerCamera == null || _playerCamera.Follow != null)
         {
             return;
         }

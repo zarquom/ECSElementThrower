@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
+using System.Runtime.InteropServices;
 using TMPro;
 using Unity.Entities;
 using UnityEngine;
@@ -42,7 +44,7 @@ public class GameOverWindowController : MonoBehaviour
 
     IEnumerator LoadMenuScene()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForEndOfFrame();
         _levelSystem.LoadScene(SceneType.Menu, LoadSceneMode.Additive);
     }
 
