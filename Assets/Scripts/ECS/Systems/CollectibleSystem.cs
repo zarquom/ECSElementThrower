@@ -1,39 +1,52 @@
-﻿using Unity.Burst;
+﻿using System;
+using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
 [BurstCompile]
-[UpdateInGroup(typeof(SimulationSystemGroup))]
-public partial struct CollectibleSystem : ISystem, ISystemStartStop
+[UpdateAfter(typeof(PlayerDetectionSystem))]
+public partial struct CollectibleSystem : ISystem
 {
+    private EntityQuery collectedCollectibleEntityQuery;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<CollectibleComponentData>();
+        collectedCollectibleEntityQuery = SystemAPI.QueryBuilder().WithAll<CollectedCollectibleComponentData>().Build();
+        state.RequireForUpdate(collectedCollectibleEntityQuery);
     }
+
     [BurstCompile]
-    public void OnStartRunning(ref SystemState state)
+    public void OnUpdate(ref SystemState state)
     {
+        NativeArray<Entity> collectedCollectibles = collectedCollectibleEntityQuery.ToEntityArray(Allocator.Temp);
         var collectibleCOmponetData = SystemAPI.GetSingleton<CollectibleComponentData>();
         ref var collectiblePool = ref collectibleCOmponetData.CollectiblePoolReference.Value;
         ref var collectibleDataArray = ref collectiblePool.CollectibleData;
 
-        for (int i = 0; i < collectibleDataArray.Length; i++)
+        for (int i = 0; i < collectedCollectibles.Length; i++)
         {
-            var collectibleContainer = collectibleDataArray[i];
-            Debug.Log($"Collectible Points: {collectibleContainer.Points}");
+            ExecuteCollectibleLogic(ref state, collectedCollectibles, i, ref collectibleDataArray);
+        }
+        collectedCollectibles.Dispose();
+    }
+
+    private void ExecuteCollectibleLogic(ref SystemState state, NativeArray<Entity> collectedCollectibles, int i, ref BlobArray<CollectibleContainer> collectibleDataArray)
+    {
+        var sceneCollectibleComponentData = SystemAPI.GetComponent<SceneCollectibleComponent>(collectedCollectibles[i]);
+        for (int j = 0; j < collectibleDataArray.Length; j++)
+        {
+            var collectibleContainer = collectibleDataArray[j];
+            if(collectibleContainer.Type == sceneCollectibleComponentData.Type)
+            {
+                Debug.Log($"Points: " + collectibleContainer.Points);
+                state.EntityManager.DestroyEntity(collectedCollectibles[i]);
+                break;
+            }
         }
     }
-    [BurstCompile]
-    public void OnUpdate(ref SystemState state)
-    {
 
-    }
-    [BurstCompile]
-    public void OnStopRunning(ref SystemState state)
-    {
-
-    }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
     {

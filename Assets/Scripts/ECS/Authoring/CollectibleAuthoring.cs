@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
@@ -6,9 +7,9 @@ using UnityEngine;
 
 public class CollectibleAuthoring : MonoBehaviour
 {
-    [SerializeField] private List<float> _collectibleData;
+    [SerializeField] private List<CollectibleSO> _collectibleData;
 
-    public List<float> CollectibleData => _collectibleData;
+    public List<CollectibleSO> CollectibleData => _collectibleData;
 }
 
 public class CollectibleBaker : Baker<CollectibleAuthoring>
@@ -24,15 +25,17 @@ public class CollectibleBaker : Baker<CollectibleAuthoring>
         });
     }
 
-    private BlobAssetReference<CollectiblePool> CreateCollectibleBlobAsset(IReadOnlyList<float> collectibleData)
+    private BlobAssetReference<CollectiblePool> CreateCollectibleBlobAsset(IReadOnlyList<CollectibleSO> collectibleData)
     {
         using var builder = new BlobBuilder(Allocator.Temp);
         ref var collectiblePool = ref builder.ConstructRoot<CollectiblePool>();
         BlobBuilderArray<CollectibleContainer> arrayBuilder = builder.Allocate(ref collectiblePool.CollectibleData, collectibleData.Count);
         for (int i = 0; i < collectibleData.Count; i++)
         {
-            float points = collectibleData[i];
-            arrayBuilder[i] = new CollectibleContainer{ Points = points };
+            var collectible = collectibleData[i];
+            CollectibleType collectibleType = collectible.Type;
+            float points = collectible.Points;
+            arrayBuilder[i] = new CollectibleContainer{ Points = points, Type = collectibleType };
         }
 
         return builder.CreateBlobAssetReference<CollectiblePool>(Allocator.Persistent);

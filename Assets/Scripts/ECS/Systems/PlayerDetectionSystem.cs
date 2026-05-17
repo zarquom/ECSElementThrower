@@ -11,13 +11,14 @@ using UnityEngine.LowLevelPhysics;
 using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
 [BurstCompile]
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup), OrderLast = true)]
 public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
 {
     private float3 _overlapDetectionOffset;
     private CollisionFilter _deadZoneCollisionFilter;
     private CollisionFilter _groundCollisionFilter;
     private CollisionFilter _endFlagCollisionFilter;
+    private CollisionFilter _collectibleCollisionFilter;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -32,11 +33,12 @@ public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
     public void OnStartRunning(ref SystemState state)
     {
         Entity player = SystemAPI.GetSingletonEntity<PlayerDetectionComponentData>();
-        PlayerDetectionComponentData groundData = SystemAPI.GetComponent<PlayerDetectionComponentData>(player);
-        _overlapDetectionOffset = groundData.OverlapDetectionOffset;
-        _deadZoneCollisionFilter = groundData.DeadZoneCollisionFilter;
-        _groundCollisionFilter = groundData.GroundCollisionFilter;
-        _endFlagCollisionFilter = groundData.EndFlagCollisionFilter;
+        PlayerDetectionComponentData detectionData = SystemAPI.GetComponent<PlayerDetectionComponentData>(player);
+        _overlapDetectionOffset = detectionData.OverlapDetectionOffset;
+        _deadZoneCollisionFilter = detectionData.DeadZoneCollisionFilter;
+        _groundCollisionFilter = detectionData.GroundCollisionFilter;
+        _endFlagCollisionFilter = detectionData.EndFlagCollisionFilter;
+        _collectibleCollisionFilter = detectionData.CollectibleCollisionFilter;
     }
 
     [BurstCompile]
@@ -64,6 +66,7 @@ public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
             DeadZoneCollisionFilter = _deadZoneCollisionFilter,
             GroundCollisionFilter = _groundCollisionFilter,
             EndFlagCollisionFilter = _endFlagCollisionFilter,
+            CollectibleCollisionFilter = _collectibleCollisionFilter,
             Ecb = GetEntityCommandBuffer(ref state)
         }.Schedule();
     }
@@ -87,6 +90,7 @@ public partial struct PlayerDetectionJob : IJobEntity
     public CollisionFilter DeadZoneCollisionFilter;
     public CollisionFilter GroundCollisionFilter;
     public CollisionFilter EndFlagCollisionFilter;
+    public CollisionFilter CollectibleCollisionFilter;
     public EntityCommandBuffer Ecb;
 
     [BurstCompile]
@@ -96,7 +100,7 @@ public partial struct PlayerDetectionJob : IJobEntity
 
         var boxCollider = (Unity.Physics.BoxCollider*)collider.ColliderPtr;
         var boxGeometry = boxCollider->Geometry;
-        
+
         bool isDead = CheckBox(localTransform, boxGeometry, DeadZoneCollisionFilter);
         playerComponentData.IsDead = isDead;
         if (isDead)
@@ -104,9 +108,26 @@ public partial struct PlayerDetectionJob : IJobEntity
             Debug.Log("Is dead");
             return;
         }
-        bool isGrounded = CheckBox(localTransform, boxGeometry, GroundCollisionFilter);
-        playerMovementData.IsGrounded = isGrounded;
+        HandleCollectibleDetection(localTransform, boxGeometry);
+        HandleGroundDetection(ref playerMovementData, localTransform, boxGeometry);
+        HandleEndFlagDetection(localTransform, boxGeometry);
 
+    }
+    private void HandleCollectibleDetection(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry)
+    {
+        NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
+        bool hasRechCollectible = OverlappingBox(localTransform, boxGeometry, ref hits, CollectibleCollisionFilter);
+        if (hasRechCollectible)
+        {
+            for (int i = 0; i < hits.Length; i++)
+            {
+                Ecb.AddComponent(hits[i].Entity, new CollectedCollectibleComponentData());
+            }
+        }
+        hits.Dispose();
+    }
+    private void HandleEndFlagDetection(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry)
+    {
         NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
         bool hasReachEndFlag = OverlappingBox(localTransform, boxGeometry, ref hits, EndFlagCollisionFilter);
         if (hasReachEndFlag)
@@ -114,6 +135,12 @@ public partial struct PlayerDetectionJob : IJobEntity
             Ecb.AddComponent(hits[0].Entity, new NextLevelComponentData());
         }
         hits.Dispose();
+    }
+
+    private void HandleGroundDetection(ref PlayerMovementComponentData playerMovementData, LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry)
+    {
+        bool isGrounded = CheckBox(localTransform, boxGeometry, GroundCollisionFilter);
+        playerMovementData.IsGrounded = isGrounded;
     }
 
     [BurstCompile]

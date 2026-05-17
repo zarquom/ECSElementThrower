@@ -8,4 +8,5 @@ public struct PlayerDetectionComponentData : IComponentData
     public CollisionFilter DeadZoneCollisionFilter;
     public CollisionFilter GroundCollisionFilter;
     public CollisionFilter EndFlagCollisionFilter;
+    public CollisionFilter CollectibleCollisionFilter;
 }
