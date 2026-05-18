@@ -17,7 +17,7 @@ public partial class PlayerInputSystem : SystemBase
     private void OnMovePerformed (InputAction.CallbackContext callbackContext)
     {
         float movementDirection = callbackContext.ReadValue<float>();
-        Debug.Log($"Performed: {movementDirection}");
+        //Debug.Log($"Performed: {movementDirection}");
         Entity player = SystemAPI.GetSingletonEntity<PlayerMovementComponentData>();
         PlayerMovementComponentData playerMovement = SystemAPI.GetComponent<PlayerMovementComponentData>(player);
         playerMovement.Direction = movementDirection;
@@ -32,7 +32,7 @@ public partial class PlayerInputSystem : SystemBase
     }
     private void OnMoveCancelled(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Cancelled");
+        //Debug.Log("Cancelled");
         Entity player = SystemAPI.GetSingletonEntity<PlayerMovementComponentData>();
         PlayerMovementComponentData playerMovement = SystemAPI.GetComponent<PlayerMovementComponentData>(player);
         playerMovement.Direction = 0f;
