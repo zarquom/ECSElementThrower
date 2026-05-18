@@ -34,14 +34,20 @@ public partial struct CollectibleSystem : ISystem
 
     private void ExecuteCollectibleLogic(ref SystemState state, NativeArray<Entity> collectedCollectibles, int i, ref BlobArray<CollectibleContainer> collectibleDataArray)
     {
-        var sceneCollectibleComponentData = SystemAPI.GetComponent<SceneCollectibleComponent>(collectedCollectibles[i]);
+        var entity = collectedCollectibles[i];
+        var sceneCollectibleComponentData = SystemAPI.GetComponent<SceneCollectibleComponent>(entity);
         for (int j = 0; j < collectibleDataArray.Length; j++)
         {
             var collectibleContainer = collectibleDataArray[j];
             if(collectibleContainer.Type == sceneCollectibleComponentData.Type)
             {
-                Debug.Log($"Points: " + collectibleContainer.Points);
-                state.EntityManager.DestroyEntity(collectedCollectibles[i]);
+                //Debug.Log($"Points: " + collectibleContainer.Points);
+                state.EntityManager.DestroyEntity(entity);
+                var pointsEntity = state.EntityManager.CreateEntity();
+                state.EntityManager.AddComponentData(pointsEntity, new PointsComponentData
+                {
+                    Points = collectibleContainer.Points
+                });
                 break;
             }
         }
