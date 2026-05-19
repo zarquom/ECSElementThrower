@@ -15,15 +15,18 @@ public partial struct PlayerMovementSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
+        state.RequireForUpdate<PlayerMovementComponentData>();
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        new PlayerMovementJob
+        var playerMovementComponentData = SystemAPI.GetSingleton<PlayerMovementComponentData>();
+        var jobHandle = new PlayerMovementJob
         {
             Ecb = GetEntityCommandBuffer(ref state)
-        }.Schedule();
+        }.Schedule(state.Dependency);
+        jobHandle.Complete();
     }
 
     [BurstCompile]

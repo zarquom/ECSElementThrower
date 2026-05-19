@@ -139,8 +139,14 @@ public partial struct PlayerDetectionJob : IJobEntity
 
     private void HandleGroundDetection(ref PlayerMovementComponentData playerMovementData, LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry)
     {
-        bool isGrounded = CheckBox(localTransform, boxGeometry, GroundCollisionFilter);
+        NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
+        bool isGrounded = OverlappingBox(localTransform, boxGeometry, ref hits, GroundCollisionFilter);
+        if (isGrounded)
+        {
+            playerMovementData.GroundHitEntity = hits[0].Entity;
+        }
         playerMovementData.IsGrounded = isGrounded;
+        hits.Dispose();
     }
 
     [BurstCompile]
