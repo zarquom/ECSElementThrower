@@ -19,7 +19,6 @@ public partial struct PlayerVisualizationSystem : ISystem
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
     }
 
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var playerEntity = _playerEntityQuery.GetSingletonEntity();

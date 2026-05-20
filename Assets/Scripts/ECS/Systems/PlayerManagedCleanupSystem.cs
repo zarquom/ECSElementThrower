@@ -20,7 +20,7 @@ public partial struct PlayerManagedCleanupSystem : ISystem
         state.RequireForUpdate(_playerManagedEntityQuery);
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
     }
-    [BurstCompile]
+
     public void OnUpdate(ref SystemState state)
     {
         var playerAnimationEntity = _playerManagedEntityQuery.GetSingletonEntity();

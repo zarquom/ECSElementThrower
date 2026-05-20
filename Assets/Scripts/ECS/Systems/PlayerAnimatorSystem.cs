@@ -19,7 +19,7 @@ public partial struct PlayerAnimatorSystem :ISystem
         .Build();
         state.RequireForUpdate(_playerEntityQuery);
     }
-    [BurstCompile]
+
     public void OnUpdate(ref SystemState state)
     {
         var playerLocalTransform = _playerEntityQuery.GetSingleton<LocalTransform>();

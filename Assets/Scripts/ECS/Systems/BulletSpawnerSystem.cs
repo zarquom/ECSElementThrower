@@ -11,7 +11,7 @@ public partial struct BulletSpawnerSystem : ISystem
 {
     private bool _isEnabled;
     private Unity.Mathematics.Random Instance;
-    [BurstCompile]
+
     public void OnCreate(ref SystemState state)
     {
         // Initialization logic if needed
