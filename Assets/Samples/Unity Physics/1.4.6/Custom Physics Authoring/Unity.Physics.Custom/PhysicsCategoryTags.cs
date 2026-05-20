@@ -206,5 +206,10 @@ namespace Unity.Physics.Authoring
         public override bool Equals(object obj) => obj is PhysicsCategoryTags other && Equals(other);
 
         public override int GetHashCode() => unchecked((int)Value);
+
+        public static implicit operator uint(PhysicsCategoryTags v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
