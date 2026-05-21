@@ -37,7 +37,7 @@ public class GameOverWindowController : MonoBehaviour
 
     private void OnClickGameOver()
     {
-        _levelSystem.UnloadPreviousLevel();
+        _levelSystem.UnloadPreviousLevel(); 
         _container.SetActive(false);
         StartCoroutine(LoadMenuScene());
     }
