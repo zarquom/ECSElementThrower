@@ -13,6 +13,7 @@ public class PlayerDetectionAuthoring : MonoBehaviour
     [SerializeField] private PhysicsCategoryTags _groundCollideWith;
     [SerializeField] private PhysicsCategoryTags _endflagCollideWith;
     [SerializeField] private PhysicsCategoryTags _collectibleCollideWith;
+    [SerializeField] private PhysicsCategoryTags _enemyCollideWith;
 
     public float3 OverlapDetectionOffset => _overlapDetectionOffset;
 
@@ -32,6 +33,11 @@ public class PlayerDetectionAuthoring : MonoBehaviour
         BelongsTo = _sharedBelongsTo.Value,
         CollidesWith = _endflagCollideWith.Value
     };
+    public CollisionFilter EnemyCollisionFilter => new CollisionFilter()
+    {
+        BelongsTo = _sharedBelongsTo.Value,
+        CollidesWith = _enemyCollideWith.Value
+    };
     public CollisionFilter CollectionCollisionFilter => new CollisionFilter()
     {
         BelongsTo = _sharedBelongsTo.Value,
@@ -48,6 +54,7 @@ public class PlayerDetectionAuthoring : MonoBehaviour
                 DeadZoneCollisionFilter = authoring.DeadZoneCollisionFilter,
                 GroundCollisionFilter = authoring.GroundCollisionFilter,
                 EndFlagCollisionFilter = authoring.EndFlagCollisionFilter,
+                EnemyCollisionFilter = authoring.EnemyCollisionFilter,
                 CollectibleCollisionFilter = authoring.CollectionCollisionFilter
             });
         }

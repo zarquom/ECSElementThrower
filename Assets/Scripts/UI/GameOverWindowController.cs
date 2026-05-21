@@ -39,13 +39,15 @@ public class GameOverWindowController : MonoBehaviour
     {
         _levelSystem.UnloadPreviousLevel(); 
         _container.SetActive(false);
-        StartCoroutine(LoadMenuScene());
+        LoadMenuScene();
     }
 
-    IEnumerator LoadMenuScene()
+    private UniTask LoadMenuScene()
     {
-        yield return new WaitForEndOfFrame();
-        _levelSystem.LoadScene(SceneType.Menu, LoadSceneMode.Additive);
+        return UniTask.Delay(TimeSpan.FromMilliseconds(500)).ContinueWith(() =>
+         {
+             _levelSystem.LoadScene(SceneType.Menu, LoadSceneMode.Additive);
+         } );
     }
 
     private void OnDisable()

@@ -19,6 +19,7 @@ public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
     private CollisionFilter _groundCollisionFilter;
     private CollisionFilter _endFlagCollisionFilter;
     private CollisionFilter _collectibleCollisionFilter;
+    private CollisionFilter _enemyCollisionFilter;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -39,6 +40,7 @@ public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
         _groundCollisionFilter = detectionData.GroundCollisionFilter;
         _endFlagCollisionFilter = detectionData.EndFlagCollisionFilter;
         _collectibleCollisionFilter = detectionData.CollectibleCollisionFilter;
+        _enemyCollisionFilter = detectionData.EnemyCollisionFilter;
     }
 
     [BurstCompile]
@@ -67,6 +69,7 @@ public partial struct PlayerDetectionSystem : ISystem, ISystemStartStop
             GroundCollisionFilter = _groundCollisionFilter,
             EndFlagCollisionFilter = _endFlagCollisionFilter,
             CollectibleCollisionFilter = _collectibleCollisionFilter,
+            EnemyCollisionFilter = _enemyCollisionFilter,
             Ecb = GetEntityCommandBuffer(ref state)
         }.Schedule();
     }
@@ -91,6 +94,7 @@ public partial struct PlayerDetectionJob : IJobEntity
     public CollisionFilter GroundCollisionFilter;
     public CollisionFilter EndFlagCollisionFilter;
     public CollisionFilter CollectibleCollisionFilter;
+    public CollisionFilter EnemyCollisionFilter;
     public EntityCommandBuffer Ecb;
 
     [BurstCompile]
@@ -108,20 +112,22 @@ public partial struct PlayerDetectionJob : IJobEntity
             Debug.Log("Is dead");
             return;
         }
-        HandleCollectibleDetection(localTransform, boxGeometry);
+        HandleGenericDetectionForManyHits<CollectedCollectibleComponentData>(localTransform, boxGeometry, CollectibleCollisionFilter);
+        HandleGenericDetectionForManyHits<PlayerDamagedComponentData>(localTransform, boxGeometry, EnemyCollisionFilter);
         HandleGroundDetection(ref playerMovementData, localTransform, boxGeometry);
         HandleEndFlagDetection(localTransform, boxGeometry);
 
     }
-    private void HandleCollectibleDetection(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry)
+    [BurstCompile]
+    private void HandleGenericDetectionForManyHits<T>(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry, CollisionFilter collisionFilter) where T : unmanaged, IComponentData
     {
         NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
-        bool hasRechCollectible = OverlappingBox(localTransform, boxGeometry, ref hits, CollectibleCollisionFilter);
-        if (hasRechCollectible)
+        bool isCOllision = OverlappingBox(localTransform, boxGeometry, ref hits, collisionFilter);
+        if (isCOllision)
         {
             for (int i = 0; i < hits.Length; i++)
             {
-                Ecb.AddComponent(hits[i].Entity, new CollectedCollectibleComponentData());
+                Ecb.AddComponent(hits[i].Entity, new T());
             }
         }
         hits.Dispose();

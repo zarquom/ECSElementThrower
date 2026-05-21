@@ -7,9 +7,11 @@ public class PlayerAuthoring : MonoBehaviour
     [SerializeField] private GameObject _playerVisualization;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _health;
 
     public float Speed => _speed;
     public float JumpForce => _jumpForce;
+    public float Health => _health;
     public GameObject PlayerVisualization => _playerVisualization;
 }
 
@@ -22,7 +24,8 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         {
             Speed = authoring.Speed,
             JumpForce = authoring.JumpForce,
-            IsDead = false
+            IsDead = false,
+            Health = authoring.Health
         });
         AddComponent(entity, new PlayerMovementComponentData
         {
