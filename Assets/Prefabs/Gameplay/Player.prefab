@@ -49,6 +49,7 @@ MonoBehaviour:
   _playerVisualization: {fileID: 674121653266197955, guid: 40ae53b3cd994ab458b1baeb5370830c, type: 3}
   _speed: 10
   _jumpForce: 500
+  _health: 3
 --- !u!114 &6346658322961013563
 MonoBehaviour:
   m_ObjectHideFlags: 0

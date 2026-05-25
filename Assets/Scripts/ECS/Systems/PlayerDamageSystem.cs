@@ -15,9 +15,9 @@ public partial struct PlayerDamageSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<EnemiesComponentData>();
-        state.RequireForUpdate(_damageEntityQuery);
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
         _damageEntityQuery = SystemAPI.QueryBuilder().WithAll<PlayerDamagedComponentData>().Build();
+        state.RequireForUpdate(_damageEntityQuery);
     }
 
     [BurstCompile]
@@ -51,7 +51,7 @@ public partial struct PlayerDamageSystem : ISystem
             {
                 ecb.DestroyEntity(damagedEntity);
                 var healthEntity = state.EntityManager.CreateEntity();
-                ecb.AddComponent(healthEntity, new HealthComponentData { Value = enemiesData[i].Damage });
+                ecb.AddComponent(healthEntity, new HealthComponentData { Value = -enemiesData[i].Damage });
                 break;
             }
         }
