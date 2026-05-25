@@ -42,8 +42,8 @@ public partial class PointsSystem : SystemBase
             var pointsComponentData = pointsComponentArray[i];
             _points += pointsComponentData.Points;
             EntityManager.DestroyEntity(pointsEntity);
-            PointsUpdated?.Invoke(_points);
         }
+        PointsUpdated?.Invoke(_points);
         pointsEntities.Dispose();
         pointsComponentArray.Dispose();
     }
