@@ -6,15 +6,15 @@ using UnityEngine;
 
 [BurstCompile]
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-public partial struct EnemyManagerCleanupSystem : ISystem
+public partial struct EnemyManagedCleanupSystem : ISystem
 {
     private EntityQuery _enemyManagedEntityQuery;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<EndSimulationEntityCommandBufferSystem>();
         _enemyManagedEntityQuery = SystemAPI.QueryBuilder().WithAll<EnemyManagedComponentData>().WithNone<LocalTransform>().Build();
         state.RequireForUpdate(_enemyManagedEntityQuery);
+        state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
     }
 
     public void OnUpdate(ref SystemState state)
@@ -24,7 +24,7 @@ public partial struct EnemyManagerCleanupSystem : ISystem
         foreach (Entity entity in enemies)
         {
             var enemyManagedComponentData = state.EntityManager.GetComponentObject<EnemyManagedComponentData>(entity);
-            Object.Destroy(enemyManagedComponentData.GameObject);
+            Object.Destroy(enemyManagedComponentData.Animator.gameObject);
             ecb.RemoveComponent<EnemyManagedComponentData>(entity);
         }
     }

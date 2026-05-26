@@ -69,7 +69,7 @@ public partial struct SnapToPlatformJob : IJobEntity
         float3 direction = math.normalize(PlatformMovementComponent.MovementVector);
         if (PlatformMovementComponent.IsReverseMovement)
             direction = -direction;
-        float platformSpeed = direction.x * PlatformMovementComponent.MovementSpeed;
+        float platformSpeed = direction.x * PlatformMovementComponent.MovementSpeed * 1.2f;
         float3 linearVelocity = new float3(platformSpeed, playerVelocity.Linear.y, playerVelocity.Linear.z); //Will cause drift as the platform moves modifying local transform
         playerVelocity.Linear = linearVelocity;
         Ecb.SetComponent(playerEntity, playerVelocity);
