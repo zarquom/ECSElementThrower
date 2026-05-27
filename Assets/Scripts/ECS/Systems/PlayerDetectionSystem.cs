@@ -100,8 +100,6 @@ public partial struct PlayerDetectionJob : IJobEntity
     [BurstCompile]
     private unsafe void Execute(ref PlayerMovementComponentData playerMovementData, ref PlayerComponentData playerComponentData, in PhysicsCollider collider, in LocalTransform localTransform)
     {
-
-
         var boxCollider = (Unity.Physics.BoxCollider*)collider.ColliderPtr;
         var boxGeometry = boxCollider->Geometry;
 

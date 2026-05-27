@@ -6,4 +6,5 @@ public struct PlayerComponentData : IComponentData
     public float JumpForce;
     public bool IsDead;
     public float Health;
+    public bool Throwing;
 }

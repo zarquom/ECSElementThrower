@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,17 @@ public partial class PlayerInputSystem : SystemBase
         _playerMapActions.Move.performed += OnMovePerformed;
         _playerMapActions.Move.canceled += OnMoveCancelled;
         _playerMapActions.Jump.performed += OnJumpPerformed;
+        _playerMapActions.Throw.performed += OnThrowPerformed;
     }
+
+    private void OnThrowPerformed(InputAction.CallbackContext callbackContext)
+    {
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        PlayerComponentData playerData = SystemAPI.GetComponent<PlayerComponentData>(player);
+        playerData.Throwing = true;
+        SystemAPI.SetComponent(player, playerData);
+    }
+
     private void OnMovePerformed (InputAction.CallbackContext callbackContext)
     {
         float movementDirection = callbackContext.ReadValue<float>();
