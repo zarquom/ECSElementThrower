@@ -1,10 +1,13 @@
-﻿
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Entities.UniversalDelegates;
+using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine;
+using UnityEngine.LowLevel;
 [BurstCompile]
 [RequireMatchingQueriesForUpdate]
 [UpdateInGroup(typeof(SimulationSystemGroup))]
@@ -15,17 +18,18 @@ public partial struct BulletMovementSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
-        _bulletEntityQuery = SystemAPI.QueryBuilder().WithAll<LocalTransform>().WithAll<BulletComponentData>().Build();
+        state.RequireForUpdate<BulletComponentData>();
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
-        new BulletMovementJob
+        var jobHandle = new BulletMovementJob
         {
             DeltaTime = deltaTime,
             Ecb = GetEntityCommandBuffer(ref state)
-        }.Schedule(_bulletEntityQuery);
+        }.Schedule(state.Dependency);
+        jobHandle.Complete();
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
@@ -47,12 +51,14 @@ public partial struct BulletMovementJob : IJobEntity
     public EntityCommandBuffer.ParallelWriter Ecb;
     public float DeltaTime;
     [BurstCompile]
-    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, in LocalTransform localTransform, BulletComponentData bulletComponentData)
+    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, ref PhysicsVelocity bulletVelocity, in LocalTransform localTransform, BulletComponentData bulletComponentData)
     {
-            float3 newBulletPosition = localTransform.Position + bulletComponentData.BulletDirection * bulletComponentData.BulletSpeed * DeltaTime;
-            LocalTransform updatedTransform = LocalTransform.FromPositionRotationScale(newBulletPosition, localTransform.Rotation, localTransform.Scale);
+        Debug.Log($"Direction: {bulletComponentData.BulletDirection}, Speed: {bulletComponentData.BulletSpeed}");
+        float3 linearVelocity = new float3(bulletComponentData.BulletSpeed * bulletComponentData.BulletDirection.x, bulletVelocity.Linear.y, bulletVelocity.Linear.z);
 
-            // Apply the updated transform back to the entity
-            Ecb.SetComponent(chunkIndexinQuery, bulletEntity, updatedTransform);
+        Ecb.SetComponent(chunkIndexinQuery,bulletEntity, new PhysicsVelocity
+        {
+            Linear = linearVelocity
+        });
     }
 }

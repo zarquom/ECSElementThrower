@@ -49,7 +49,6 @@ public partial struct PlayerDamageSystem : ISystem
         {
             if (enemiesData[i].Type == enemyComponentData.Type)
             {
-                Debug.Log("Player damaged by " + enemiesData[i].Type + " for " + enemiesData[i].Damage + " damage. Destroyed " + damagedEntity.ToString());
                 ecb.DestroyEntity(damagedEntity);
                 var healthEntity = state.EntityManager.CreateEntity();
                 ecb.AddComponent(healthEntity, new HealthComponentData { Value = -enemiesData[i].Damage });

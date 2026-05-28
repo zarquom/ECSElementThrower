@@ -50,6 +50,8 @@ public partial struct PlayerMovementJob : IJobEntity
     {
         if (!playerMovement.IsGrounded)
         {
+            SetRotation(player, localTransform, playerComp, playerMovement);
+            SetVelocity(player, playerVelocity, playerComp, playerMovement);
             return;
         }
         if (playerMovement.IsJump)
@@ -62,7 +64,7 @@ public partial struct PlayerMovementJob : IJobEntity
             return;
         }
 
-        SetRotation(player, localTransform, playerComp, playerMovement);
+
         SetVelocity(player, playerVelocity, playerComp, playerMovement);
     }
 

@@ -30,7 +30,8 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         });
         AddComponent(entity, new PlayerMovementComponentData
         {
-            Direction = 0f
+            Direction = 0f,
+            LastDirection = 1f
         });
         AddComponentObject(entity, new PlayerVisualizationComponentData
         {

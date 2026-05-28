@@ -14,12 +14,14 @@ public partial struct PlayerThrowSystem : ISystem
         // Initialization logic if needed
         state.RequireForUpdate< BulletSpawnerComponentData>();
         state.RequireForUpdate<PlayerComponentData>();
+        state.RequireForUpdate<PlayerMovementComponentData>();
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         Entity playerEntity = SystemAPI.GetSingletonEntity<PlayerComponentData>();
         PlayerComponentData playerComponentData = SystemAPI.GetComponent<PlayerComponentData>(playerEntity);
+        PlayerMovementComponentData playerMovementComponentData = SystemAPI.GetComponent<PlayerMovementComponentData>(playerEntity);
         Entity bulletSpawnerEntity = SystemAPI.GetSingletonEntity<BulletSpawnerComponentData>();
         var bulletBufferElementData = state.EntityManager.GetBuffer<BulletBufferElementData>(bulletSpawnerEntity);
         if (!playerComponentData.Throwing)
@@ -32,8 +34,10 @@ public partial struct PlayerThrowSystem : ISystem
         float3 randomPos = playerTransform.Position;
         Entity bulletEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab);
         BulletComponentData bulletComponentData = SystemAPI.GetComponent<BulletComponentData>(bulletEntity);
+        bulletComponentData.BulletDirection = playerMovementComponentData.LastDirection;
         LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(bulletComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
         state.EntityManager.SetComponentData(bulletEntity, localTransform);
+        state.EntityManager.SetComponentData(bulletEntity, bulletComponentData);
     }
 
     [BurstCompile]

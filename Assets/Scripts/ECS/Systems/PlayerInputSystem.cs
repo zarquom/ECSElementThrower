@@ -32,6 +32,7 @@ public partial class PlayerInputSystem : SystemBase
         Entity player = SystemAPI.GetSingletonEntity<PlayerMovementComponentData>();
         PlayerMovementComponentData playerMovement = SystemAPI.GetComponent<PlayerMovementComponentData>(player);
         playerMovement.Direction = movementDirection;
+        playerMovement.LastDirection = movementDirection;
         SystemAPI.SetComponent(player, playerMovement);
     }
     private void OnJumpPerformed(InputAction.CallbackContext callbackContext)
