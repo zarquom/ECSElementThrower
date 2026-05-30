@@ -64,7 +64,7 @@ public partial struct PlayerMovementJob : IJobEntity
             return;
         }
 
-
+        SetRotation(player, localTransform, playerComp, playerMovement);
         SetVelocity(player, playerVelocity, playerComp, playerMovement);
     }
 
