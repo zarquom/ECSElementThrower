@@ -78,7 +78,7 @@ public partial struct PlayerMovementJob : IJobEntity
     [BurstCompile]
     private void SetRotation(Entity player, LocalTransform localTransform, PlayerComponentData playerComp, PlayerMovementComponentData playerMovement)
     {
-        quaternion newRotation = playerMovement.Direction > 0f ? new quaternion(x: 0, y: 0, z: 0, w: 1) : new quaternion(x: 0, y: 1, z: 0, w: 0);
+        quaternion newRotation = playerMovement.LastDirection > 0f ? new quaternion(x: 0, y: 0, z: 0, w: 1) : new quaternion(x: 0, y: 1, z: 0, w: 0);
         Ecb.SetComponent(player, new LocalTransform
         {
             Position = localTransform.Position,
