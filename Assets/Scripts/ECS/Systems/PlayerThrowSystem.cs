@@ -12,7 +12,7 @@ public partial struct PlayerThrowSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         // Initialization logic if needed
-        state.RequireForUpdate< BulletSpawnerComponentData>();
+        state.RequireForUpdate< ElementSpawnerComponentData>();
         state.RequireForUpdate<PlayerComponentData>();
         state.RequireForUpdate<PlayerMovementComponentData>();
     }
@@ -22,7 +22,7 @@ public partial struct PlayerThrowSystem : ISystem
         Entity playerEntity = SystemAPI.GetSingletonEntity<PlayerComponentData>();
         PlayerComponentData playerComponentData = SystemAPI.GetComponent<PlayerComponentData>(playerEntity);
         PlayerMovementComponentData playerMovementComponentData = SystemAPI.GetComponent<PlayerMovementComponentData>(playerEntity);
-        Entity bulletSpawnerEntity = SystemAPI.GetSingletonEntity<BulletSpawnerComponentData>();
+        Entity bulletSpawnerEntity = SystemAPI.GetSingletonEntity<ElementSpawnerComponentData>();
         var bulletBufferElementData = state.EntityManager.GetBuffer<BulletBufferElementData>(bulletSpawnerEntity);
         if (!playerComponentData.Throwing)
         {
@@ -33,7 +33,7 @@ public partial struct PlayerThrowSystem : ISystem
         state.EntityManager.SetComponentData(playerEntity, playerComponentData);
         float3 randomPos = playerTransform.Position;
         Entity bulletEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab);
-        BulletComponentData bulletComponentData = SystemAPI.GetComponent<BulletComponentData>(bulletEntity);
+        ElementComponentData bulletComponentData = SystemAPI.GetComponent<ElementComponentData>(bulletEntity);
         bulletComponentData.BulletDirection = playerMovementComponentData.LastDirection;
         LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(bulletComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
         state.EntityManager.SetComponentData(bulletEntity, localTransform);

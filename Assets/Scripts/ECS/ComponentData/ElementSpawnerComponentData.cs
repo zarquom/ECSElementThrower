@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-public struct BulletSpawnerComponentData : IComponentData
+public struct ElementSpawnerComponentData : IComponentData
 {
     public int BulletCount;
 }

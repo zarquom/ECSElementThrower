@@ -2,7 +2,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class BulletAuthoring : MonoBehaviour
+public class ElementAuthoring : MonoBehaviour
 {
     [SerializeField] private float3 _bulletDirection;
     [SerializeField] private float3 _bulletRotation;
@@ -13,12 +13,12 @@ public class BulletAuthoring : MonoBehaviour
     public float3 BulletRotation => _bulletRotation;
 
 }
-public class BulletBaker : Baker<BulletAuthoring>
+public class BulletBaker : Baker<ElementAuthoring>
 {
-    public override void Bake(BulletAuthoring authoring)
+    public override void Bake(ElementAuthoring authoring)
     {
         var entity = GetEntity(TransformUsageFlags.None);
-        AddComponent(entity, new BulletComponentData
+        AddComponent(entity, new ElementComponentData
         {
             BulletDirection = authoring.BulletDirection,
             BulletRotation = authoring.BulletRotation,

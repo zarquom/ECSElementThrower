@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-public class BulletSpawnerAuthoring : MonoBehaviour
+public class ElementSpawnerAuthoring : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _bulletPrefabs;
     [SerializeField] private int _bulletCount;
@@ -12,9 +12,9 @@ public class BulletSpawnerAuthoring : MonoBehaviour
     public int BulletCount => _bulletCount;
 }
 
-public class BulletSpawnerBaker : Baker<BulletSpawnerAuthoring>
+public class BulletSpawnerBaker : Baker<ElementSpawnerAuthoring>
 {
-    public override void Bake(BulletSpawnerAuthoring authoring)
+    public override void Bake(ElementSpawnerAuthoring authoring)
     {
         var entity = GetEntity(TransformUsageFlags.None);
         var bulletBufferElementData = AddBuffer<BulletBufferElementData>(entity);
@@ -25,7 +25,7 @@ public class BulletSpawnerBaker : Baker<BulletSpawnerAuthoring>
                 BulletPrefab = GetEntity(bulletPrefab, TransformUsageFlags.Dynamic),
             });
         }
-        AddComponent(entity, new BulletSpawnerComponentData
+        AddComponent(entity, new ElementSpawnerComponentData
         {
             BulletCount = authoring.BulletCount
         });
