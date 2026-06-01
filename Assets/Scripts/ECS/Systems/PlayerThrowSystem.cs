@@ -32,12 +32,12 @@ public partial struct PlayerThrowSystem : ISystem
         playerComponentData.Throwing = false;
         state.EntityManager.SetComponentData(playerEntity, playerComponentData);
         float3 randomPos = playerTransform.Position;
-        Entity bulletEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab);
-        ElementComponentData bulletComponentData = SystemAPI.GetComponent<ElementComponentData>(bulletEntity);
-        bulletComponentData.BulletDirection = playerMovementComponentData.LastDirection;
-        LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(bulletComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
-        state.EntityManager.SetComponentData(bulletEntity, localTransform);
-        state.EntityManager.SetComponentData(bulletEntity, bulletComponentData);
+        Entity elementEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab);
+        ElementComponentData elementComponentData = SystemAPI.GetComponent<ElementComponentData>(elementEntity);
+        elementComponentData.BulletDirection = playerMovementComponentData.LastDirection;
+        LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(elementComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
+        state.EntityManager.SetComponentData(elementEntity, localTransform);
+        state.EntityManager.SetComponentData(elementEntity, elementComponentData);
     }
 
     [BurstCompile]

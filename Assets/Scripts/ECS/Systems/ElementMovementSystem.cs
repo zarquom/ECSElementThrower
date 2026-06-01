@@ -18,13 +18,14 @@ public partial struct ElementMovementSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
-        state.RequireForUpdate<ElementComponentData>();
+        _elementEntityQuery = SystemAPI.QueryBuilder().WithAll<ElementComponentData, LocalTransform, PhysicsVelocity>().Build();
+        state.RequireForUpdate(_elementEntityQuery);
     }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
-        var jobHandle = new BulletMovementJob
+        var jobHandle = new ElementMovementJob
         {
             DeltaTime = deltaTime,
             Ecb = GetEntityCommandBuffer(ref state)
@@ -46,17 +47,16 @@ public partial struct ElementMovementSystem : ISystem
 }
 
 [BurstCompile]
-public partial struct BulletMovementJob : IJobEntity
+public partial struct ElementMovementJob : IJobEntity
 {
     public EntityCommandBuffer.ParallelWriter Ecb;
     public float DeltaTime;
     [BurstCompile]
-    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity bulletEntity, ref PhysicsVelocity bulletVelocity, in LocalTransform localTransform, ElementComponentData bulletComponentData)
+    private void Execute([ChunkIndexInQuery] int chunkIndexinQuery, in Entity elementEntity, ref PhysicsVelocity elementVelocity, in LocalTransform localTransform, ElementComponentData elementComponentData)
     {
-        Debug.Log($"Direction: {bulletComponentData.BulletDirection}, Speed: {bulletComponentData.BulletSpeed}");
-        float3 linearVelocity = new float3(bulletComponentData.BulletSpeed * bulletComponentData.BulletDirection.x, bulletVelocity.Linear.y, bulletVelocity.Linear.z);
+        float3 linearVelocity = new float3(elementComponentData.BulletSpeed * elementComponentData.BulletDirection.x, elementVelocity.Linear.y, elementVelocity.Linear.z);
 
-        Ecb.SetComponent(chunkIndexinQuery,bulletEntity, new PhysicsVelocity
+        Ecb.SetComponent(chunkIndexinQuery,elementEntity, new PhysicsVelocity
         {
             Linear = linearVelocity
         });

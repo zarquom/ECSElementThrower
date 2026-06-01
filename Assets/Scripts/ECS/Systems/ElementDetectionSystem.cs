@@ -44,8 +44,7 @@ public partial struct ElementDetectionSystem : ISystem, ISystemStartStop
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        var elementComponentData = SystemAPI.GetSingleton<ElementComponentData>();
-        if (SystemAPI.HasSingleton<NextLevelComponentData>() || SystemAPI.HasSingleton<ElementCrushedComponentData>())
+        if (SystemAPI.HasSingleton<NextLevelComponentData>())
         {
             return;
         }
@@ -83,13 +82,13 @@ public partial struct ElementDetectionJob : IJobEntity
     [BurstCompile]
     private unsafe void Execute(in Entity elementEntity, ref ElementComponentData elementComponentData, in PhysicsCollider collider, in LocalTransform localTransform)
     {
-        var boxCollider = (Unity.Physics.BoxCollider*)collider.ColliderPtr;
-        var boxGeometry = boxCollider->Geometry;
+        var sphereCollider = (Unity.Physics.SphereCollider*)collider.ColliderPtr;
+        var sphereGeometry = sphereCollider->Geometry;
 
-        bool isRemoved = CheckBox(localTransform, boxGeometry, DeadZoneCollisionFilter);
+        bool isRemoved = CheckSphere(localTransform, sphereGeometry, DeadZoneCollisionFilter);
         if (isRemoved)
         {
-            Ecb.AddComponent<ElementCrushedComponentData>(elementEntity);
+            Ecb.SetEnabled(elementEntity, false);
             Debug.Log("Is removed");
             return;
         }
@@ -118,8 +117,8 @@ public partial struct ElementDetectionJob : IJobEntity
     }
 
     [BurstCompile]
-    private bool CheckBox(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry, CollisionFilter collisionFilter)
+    private bool CheckSphere(LocalTransform localTransform, Unity.Physics.SphereGeometry sphereGeometry, CollisionFilter collisionFilter)
     {
-        return CollisionWorld.CheckBox(localTransform.Position + OverlapDetectionOffset, new quaternion(0, 0, 0, 1), boxGeometry.Size / 2f, collisionFilter);
+        return CollisionWorld.CheckSphere(localTransform.Position + OverlapDetectionOffset, sphereGeometry.Radius, collisionFilter);
     }
 }
