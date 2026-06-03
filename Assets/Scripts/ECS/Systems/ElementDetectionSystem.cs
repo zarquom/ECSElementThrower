@@ -89,7 +89,7 @@ public partial struct ElementDetectionJob : IJobEntity
         if (isRemoved)
         {
             Ecb.SetEnabled(elementEntity, false);
-            Debug.Log("Is removed");
+            //Debug.Log("Is removed");
             return;
         }
         //HandleGenericDetectionForManyHits<PlayerDamagedComponentData>(localTransform, boxGeometry, EnemyCollisionFilter);

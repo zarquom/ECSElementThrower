@@ -41,7 +41,8 @@ public partial class LevelSystem : SystemBase
             await LoadingScreen(true);
         await UnloadPreviousLevel();
         await LoadNextSubScene();
-        await LoadingScreen(false);
+        if (isLoadingScreen)
+            await LoadingScreen(false);
     }
 
     private async UniTask LoadNextSubScene()
