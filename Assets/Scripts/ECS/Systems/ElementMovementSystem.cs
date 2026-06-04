@@ -24,13 +24,14 @@ public partial struct ElementMovementSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        float deltaTime = SystemAPI.Time.DeltaTime;
-        var jobHandle = new ElementMovementJob
-        {
-            DeltaTime = deltaTime,
-            Ecb = GetEntityCommandBuffer(ref state)
-        }.Schedule(state.Dependency);
-        jobHandle.Complete();
+        //Dont modify linear velocity, add force in creation of the bullet and let physics system handle the movement. This is to avoid issues with physics and ensure consistent movement regardless of frame rate.
+        /* float deltaTime = SystemAPI.Time.DeltaTime;
+         var jobHandle = new ElementMovementJob
+         {
+             DeltaTime = deltaTime,
+             Ecb = GetEntityCommandBuffer(ref state)
+         }.Schedule(state.Dependency);
+         jobHandle.Complete();*/
     }
     [BurstCompile]
     public void OnDestroy(ref SystemState state)

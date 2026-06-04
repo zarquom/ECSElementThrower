@@ -114,7 +114,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  _bulletSpeed: 5
+  _bulletSpeed: 15
 --- !u!114 &5401364017436041754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,17 +129,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Physics.Custom::Unity.Physics.Authoring.PhysicsBodyAuthoring
   m_MotionType: 0
   m_Smoothing: 0
-  m_Mass: 10
-  m_LinearDamping: 0.01
+  m_Mass: 5
+  m_LinearDamping: 0.1
   m_AngularDamping: 0.05
   m_InitialLinearVelocity:
     x: 0
     y: 0
     z: 0
   m_InitialAngularVelocity:
-    x: 0
-    y: 0
-    z: 0
+    x: Infinity
+    y: Infinity
+    z: Infinity
   m_GravityFactor: 5
   m_OverrideDefaultMassDistribution: 0
   m_CenterOfMass:
@@ -225,13 +225,13 @@ MonoBehaviour:
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
-        CombineMode: 0
+        Value: 0.6
+        CombineMode: 2
     m_Restitution:
       m_Override: 0
       m_Value:
         Value: 0
-        CombineMode: 2
+        CombineMode: 1
     m_BelongsToCategories:
       m_Override: 0
       m_Value:

@@ -2,7 +2,9 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine.LowLevelPhysics2D;
 
 [BurstCompile]
 [UpdateInGroup(typeof(SimulationSystemGroup))]
@@ -32,12 +34,14 @@ public partial struct PlayerThrowSystem : ISystem
         playerComponentData.Throwing = false;
         state.EntityManager.SetComponentData(playerEntity, playerComponentData);
         float3 randomPos = playerTransform.Position;
-        Entity elementEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab);
+        Entity elementEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab); // Switch to the element prefab you want to spawn
         ElementComponentData elementComponentData = SystemAPI.GetComponent<ElementComponentData>(elementEntity);
         elementComponentData.BulletDirection = playerMovementComponentData.LastDirection;
+        PhysicsVelocity elementPhysicsVelocity = new PhysicsVelocity { Linear = new float3(elementComponentData.BulletSpeed * elementComponentData.BulletDirection.x, elementComponentData.BulletSpeed * elementComponentData.BulletDirection.y, 0f), Angular = float3.zero };
         LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(elementComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
         state.EntityManager.SetComponentData(elementEntity, localTransform);
         state.EntityManager.SetComponentData(elementEntity, elementComponentData);
+        state.EntityManager.SetComponentData(elementEntity, elementPhysicsVelocity);
     }
 
     [BurstCompile]

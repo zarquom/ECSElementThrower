@@ -88,7 +88,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 3.01, y: 1}
+  m_Size: {x: 3.01, y: 0.31}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_ShapeType: 0
   m_PrimitiveCenter:
     x: 0
-    y: 0.39
+    y: 0
     z: 0
   m_PrimitiveSize:
     x: 3.06
@@ -152,13 +152,13 @@ MonoBehaviour:
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
-        CombineMode: 0
+        Value: 0.6
+        CombineMode: 2
     m_Restitution:
       m_Override: 0
       m_Value:
         Value: 0
-        CombineMode: 2
+        CombineMode: 1
     m_BelongsToCategories:
       m_Override: 0
       m_Value:
