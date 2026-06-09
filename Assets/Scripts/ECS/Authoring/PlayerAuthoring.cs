@@ -37,5 +37,9 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         {
             PlayerVisualization = authoring.PlayerVisualization
         });
+        AddComponent(entity, new CameraComponentData
+        {
+            IsCenteredOnPlayer = true
+        });
     }
 }

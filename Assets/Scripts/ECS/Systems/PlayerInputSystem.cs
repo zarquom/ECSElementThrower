@@ -15,6 +15,8 @@ public partial class PlayerInputSystem : SystemBase
         _playerMapActions.Move.canceled += OnMoveCancelled;
         _playerMapActions.Jump.performed += OnJumpPerformed;
         _playerMapActions.Throw.performed += OnThrowPerformed;
+        _playerMapActions.Switch.started += OnSwitchStarted;
+        _playerMapActions.Switch.canceled += OnSwitchCancelled;
     }
 
     private void OnThrowPerformed(InputAction.CallbackContext callbackContext)
@@ -50,7 +52,21 @@ public partial class PlayerInputSystem : SystemBase
         playerMovement.Direction = 0f;
         SystemAPI.SetComponent(player, playerMovement);
     }
+    private void OnSwitchCancelled(InputAction.CallbackContext context)
+    {
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        CameraComponentData cameraData = SystemAPI.GetComponent<CameraComponentData>(player);
+        cameraData.IsCenteredOnPlayer = true;
+        SystemAPI.SetComponent(player, cameraData);
+    }
 
+    private void OnSwitchStarted(InputAction.CallbackContext context)
+    {
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        CameraComponentData cameraData = SystemAPI.GetComponent<CameraComponentData>(player);
+        cameraData.IsCenteredOnPlayer = false;
+        SystemAPI.SetComponent(player, cameraData);
+    }
     protected override void OnUpdate()
     {
 
@@ -61,5 +77,8 @@ public partial class PlayerInputSystem : SystemBase
         _playerMapActions.Move.performed -= OnMovePerformed;
         _playerMapActions.Jump.performed -= OnJumpPerformed;
         _playerMapActions.Move.canceled -= OnMoveCancelled;
+        _playerMapActions.Throw.performed -= OnThrowPerformed;
+        _playerMapActions.Switch.started -= OnSwitchStarted;
+        _playerMapActions.Switch.canceled -= OnSwitchCancelled;
     }
 }

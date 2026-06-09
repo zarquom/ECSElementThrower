@@ -32,6 +32,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Switch",
+                    "type": "Button",
+                    "id": "9f8cab94-634a-4071-9d68-99bb315b9873",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -70,17 +79,6 @@
                 },
                 {
                     "name": "",
-                    "id": "55bfca7d-b1af-40b3-b052-f90b0a615662",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "21a10ba9-dca3-4f76-a5a3-91a73b9593b4",
                     "path": "<Keyboard>/w",
                     "interactions": "",
@@ -92,12 +90,23 @@
                 },
                 {
                     "name": "",
-                    "id": "bed265ee-64d9-4970-a526-50ddcf2eba08",
-                    "path": "<Keyboard>/e",
+                    "id": "55bfca7d-b1af-40b3-b052-f90b0a615662",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d2410d4-da06-446f-8e73-67ee940fb5eb",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

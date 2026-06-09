@@ -118,6 +118,15 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Switch"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f8cab94-634a-4071-9d68-99bb315b9873"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -156,17 +165,6 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""55bfca7d-b1af-40b3-b052-f90b0a615662"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""21a10ba9-dca3-4f76-a5a3-91a73b9593b4"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
@@ -178,12 +176,23 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bed265ee-64d9-4970-a526-50ddcf2eba08"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""55bfca7d-b1af-40b3-b052-f90b0a615662"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d2410d4-da06-446f-8e73-67ee940fb5eb"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Switch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -197,6 +206,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         m_PlayerMap_Move = m_PlayerMap.FindAction("Move", throwIfNotFound: true);
         m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMap_Throw = m_PlayerMap.FindAction("Throw", throwIfNotFound: true);
+        m_PlayerMap_Switch = m_PlayerMap.FindAction("Switch", throwIfNotFound: true);
     }
 
     ~@InputControls()
@@ -280,6 +290,7 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_Move;
     private readonly InputAction m_PlayerMap_Jump;
     private readonly InputAction m_PlayerMap_Throw;
+    private readonly InputAction m_PlayerMap_Switch;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerMap".
     /// </summary>
@@ -303,6 +314,10 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMap/Throw".
         /// </summary>
         public InputAction @Throw => m_Wrapper.m_PlayerMap_Throw;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMap/Switch".
+        /// </summary>
+        public InputAction @Switch => m_Wrapper.m_PlayerMap_Switch;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -338,6 +353,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+            @Switch.started += instance.OnSwitch;
+            @Switch.performed += instance.OnSwitch;
+            @Switch.canceled += instance.OnSwitch;
         }
 
         /// <summary>
@@ -358,6 +376,9 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+            @Switch.started -= instance.OnSwitch;
+            @Switch.performed -= instance.OnSwitch;
+            @Switch.canceled -= instance.OnSwitch;
         }
 
         /// <summary>
@@ -419,5 +440,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThrow(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Switch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitch(InputAction.CallbackContext context);
     }
 }
