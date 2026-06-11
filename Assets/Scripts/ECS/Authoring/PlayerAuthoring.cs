@@ -1,5 +1,7 @@
-﻿using Unity.Entities;
+﻿using System.Collections.Generic;
+using Unity.Entities;
 using UnityEditor.Build.Pipeline;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class PlayerAuthoring : MonoBehaviour
@@ -28,6 +30,11 @@ public class PlayerBaker : Baker<PlayerAuthoring>
             Health = authoring.Health,
             Throwing = false
         });
+        var buffer = AddBuffer<CollectibleElement>(entity);
+        buffer.Add(new CollectibleElement { Type = CollectibleType.Fire, Amount = 0 });
+        buffer.Add(new CollectibleElement { Type = CollectibleType.Water, Amount = 0 });
+        buffer.Add(new CollectibleElement { Type = CollectibleType.Earth, Amount = 0 });
+        buffer.Add(new CollectibleElement { Type = CollectibleType.Wind, Amount = 0 });
         AddComponent(entity, new PlayerMovementComponentData
         {
             Direction = 0f,

@@ -1,6 +1,8 @@
 ﻿public enum CollectibleType
 {
     None = 0,
-    GoldCoin = 1,
-    BronzeCoin = 2
+    Fire = 1,
+    Water = 2,
+    Earth = 3,
+    Wind = 4
 }

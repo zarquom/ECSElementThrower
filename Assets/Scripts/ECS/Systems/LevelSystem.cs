@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public partial class LevelSystem : SystemBase
 {
-    public const int AnimationTimeInMillis = 1500;
+    public const int AnimationTimeInMillis = 200;
 
     public event Action LastLevelCompleted;
     public event Action LevelLoaded;
