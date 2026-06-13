@@ -110,7 +110,7 @@ public partial struct PlayerDetectionJob : IJobEntity
             Debug.Log("Is dead");
             return;
         }
-        HandleGenericDetectionForManyHits<CollectedCollectibleComponentData>(localTransform, boxGeometry, CollectibleCollisionFilter);
+        HandleGenericDetectionForManyHits<CollectedElementCollectibleComponentData>(localTransform, boxGeometry, CollectibleCollisionFilter);
         HandleGenericDetectionForManyHits<PlayerDamagedComponentData>(localTransform, boxGeometry, EnemyCollisionFilter);
         HandleGroundDetection(ref playerMovementData, localTransform, boxGeometry);
         HandleEndFlagDetection(localTransform, boxGeometry);
