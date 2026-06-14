@@ -101,11 +101,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5014590124352859559, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Name
-      value: CollectibleBronze
+      value: CollectibleFire
       objectReference: {fileID: 0}
     - target: {fileID: 5531675074541269650, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: _type
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Capsule.Axis

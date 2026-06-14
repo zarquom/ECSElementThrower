@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CollectibleFire
   m_EditorClassIdentifier: Assembly-CSharp::Data.CollectibleSO
   Type: 1
-  Points: 10
+  Points: 50

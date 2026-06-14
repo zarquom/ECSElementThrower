@@ -101,11 +101,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5014590124352859559, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Name
-      value: CollectibleGold
+      value: CollectibleWater
       objectReference: {fileID: 0}
     - target: {fileID: 5531675074541269650, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: _type
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Capsule.Axis
@@ -117,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Cylinder.Axis
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Capsule.Height
@@ -125,19 +125,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Capsule.Radius
-      value: 0.17723608
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Cylinder.Height
-      value: 0.5632529
+      value: 0.16630036
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_Cylinder.Radius
-      value: 0.17723608
+      value: 0.28162646
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_PrimitiveSize.x
-      value: 0.35447216
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 6014913071080852108, guid: be0c9331d37b2fc4ea5fb52f212c1aaa, type: 3}
       propertyPath: m_PrimitiveSize.y

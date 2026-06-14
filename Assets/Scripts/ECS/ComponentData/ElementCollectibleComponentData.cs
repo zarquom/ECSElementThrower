@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Unity.Entities;
 
-namespace Assets.Scripts.ECS.ComponentData
+public struct ElementCollectibleComponentData : IComponentData
 {
-    internal class ElementCollectibleComponentData
-    {
-    }
+    public int Amount;
+    public CollectibleType ElementType;
 }

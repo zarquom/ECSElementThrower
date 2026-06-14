@@ -22,19 +22,19 @@ public partial struct CollectibleSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        NativeArray<Entity> obtainedPointsCollectibles = obtainedPointsEntityQuery.ToEntityArray(Allocator.Temp);
-        var collectibleCOmponetData = SystemAPI.GetSingleton<CollectibleComponentData>();
-        ref var collectiblePool = ref collectibleCOmponetData.CollectiblePoolReference.Value;
-        ref var collectibleDataArray = ref collectiblePool.CollectibleData;
+        /*NativeArray<Entity> obtainedPointsCollectibles = obtainedPointsEntityQuery.ToEntityArray(Allocator.Temp);
+
 
         for (int i = 0; i < obtainedPointsCollectibles.Length; i++)
         {
             ExecutePointsLogic(ref state, obtainedPointsCollectibles, i, ref collectibleDataArray);
         }
-        obtainedPointsCollectibles.Dispose();
+        obtainedPointsCollectibles.Dispose();*/
 
         NativeArray<Entity> collectedCollectibles = collectedCollectibleEntityQuery.ToEntityArray(Allocator.Temp);
-
+        var collectibleCOmponetData = SystemAPI.GetSingleton<CollectibleComponentData>();
+        ref var collectiblePool = ref collectibleCOmponetData.CollectiblePoolReference.Value;
+        ref var collectibleDataArray = ref collectiblePool.CollectibleData;
         for (int i = 0; i < collectedCollectibles.Length; i++)
         {
             ExecuteCollectibleLogic(ref state, collectedCollectibles, i, ref collectibleDataArray);
@@ -54,9 +54,10 @@ public partial struct CollectibleSystem : ISystem
                 //Debug.Log($"Points: " + collectibleContainer.Points);
                 state.EntityManager.DestroyEntity(entity);
                 var pointsEntity = state.EntityManager.CreateEntity();
-                state.EntityManager.AddComponentData(pointsEntity, new PointsComponentData
+                state.EntityManager.AddComponentData(pointsEntity, new ElementCollectibleComponentData
                 {
-                    Points = collectibleContainer.Points
+                    Amount = (int)collectibleContainer.Points,
+                    ElementType = collectibleContainer.Type
                 });
                 break;
             }
