@@ -13,7 +13,7 @@ public partial class ElementsCollectibleSystem : SystemBase
     protected override void OnCreate()
     {
         _elementsEntityQuery = SystemAPI.QueryBuilder().WithAll<ElementCollectibleComponentData>().Build();
-
+        RequireForUpdate(_elementsEntityQuery);
     }
     protected override void OnStartRunning()
     {
@@ -33,6 +33,7 @@ public partial class ElementsCollectibleSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
         NativeArray<Entity> elementsEntities = _elementsEntityQuery.ToEntityArray(Allocator.Temp);
         NativeArray<ElementCollectibleComponentData> elementsComponentArray = _elementsEntityQuery.ToComponentDataArray<ElementCollectibleComponentData>(Allocator.Temp);
         DynamicBuffer<CollectibleElement> buffer = new DynamicBuffer<CollectibleElement>();
@@ -41,7 +42,7 @@ public partial class ElementsCollectibleSystem : SystemBase
             var elementsEntity = elementsEntities[i];
             var elementsComponentData = elementsComponentArray[i];
             buffer = OnElementPickedUp(elementsComponentData);
-            EntityManager.DestroyEntity(elementsEntity);
+            ecb.DestroyEntity(elementsEntity);
         }
         ElementsUpdated?.Invoke(buffer);
         elementsEntities.Dispose();

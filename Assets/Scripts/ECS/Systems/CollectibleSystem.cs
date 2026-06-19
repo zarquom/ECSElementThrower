@@ -8,15 +8,15 @@ using UnityEngine;
 [UpdateAfter(typeof(PlayerDetectionSystem))]
 public partial struct CollectibleSystem : ISystem
 {
-    private EntityQuery obtainedPointsEntityQuery;
+    //private EntityQuery obtainedPointsEntityQuery;
     private EntityQuery collectedCollectibleEntityQuery;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<CollectibleComponentData>();
-        obtainedPointsEntityQuery = SystemAPI.QueryBuilder().WithAll<ObtainedPointsComponentData>().Build();
+        //obtainedPointsEntityQuery = SystemAPI.QueryBuilder().WithAll<ObtainedPointsComponentData>().Build();
         collectedCollectibleEntityQuery = SystemAPI.QueryBuilder().WithAll<CollectedElementCollectibleComponentData>().Build();
-        state.RequireForUpdate(obtainedPointsEntityQuery);
+        state.RequireForUpdate(collectedCollectibleEntityQuery);
     }
 
     [BurstCompile]
