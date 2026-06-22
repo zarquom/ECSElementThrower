@@ -11,7 +11,6 @@ using UnityEngine.LowLevelPhysics2D;
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 public partial struct PlayerThrowSystem : ISystem
 {
-
     public void OnCreate(ref SystemState state)
     {
         // Initialization logic if needed
@@ -31,13 +30,28 @@ public partial struct PlayerThrowSystem : ISystem
         {
             return;
         }
+        CollectibleType selectedType = CollectibleType.Fire;
+        DynamicBuffer<CollectibleElement> elementsBuffer = SystemAPI.GetBuffer<CollectibleElement>(playerEntity);
+        for (int i = 0; i < elementsBuffer.Length; i++)
+        {
+            var element = elementsBuffer[i];
+            if (element.Type == selectedType && element.Amount <= 0)
+            {
+                return;
+            }
+        }
         LocalTransform playerTransform= SystemAPI.GetComponent<LocalTransform>(playerEntity);
         playerComponentData.Throwing = false;
         state.EntityManager.SetComponentData(playerEntity, playerComponentData);
         float3 randomPos = playerTransform.Position;
-        Entity elementEntity = state.EntityManager.Instantiate(bulletBufferElementData[0].BulletPrefab); // Switch to the element prefab you want to spawn
+        Entity elementEntity = state.EntityManager.Instantiate(bulletBufferElementData[(int)selectedType - 1].BulletPrefab); // Switch to the element prefab you want to spawn
         ElementComponentData elementComponentData = SystemAPI.GetComponent<ElementComponentData>(elementEntity);
         elementComponentData.BulletDirection = playerMovementComponentData.LastDirection;
+        state.EntityManager.AddComponentData(playerEntity, new ElementCollectibleComponentData
+        {
+            Amount = -1,
+            ElementType = selectedType
+        });
         PhysicsVelocity elementPhysicsVelocity = new PhysicsVelocity { Linear = new float3(elementComponentData.BulletSpeed * elementComponentData.BulletDirection.x, elementComponentData.BulletSpeed, 0f), Angular = float3.zero };
         LocalTransform localTransform = LocalTransform.FromPositionRotationScale(randomPos, quaternion.Euler(elementComponentData.BulletRotation, math.RotationOrder.XYZ), 0.2f);
         state.EntityManager.SetComponentData(elementEntity, localTransform);

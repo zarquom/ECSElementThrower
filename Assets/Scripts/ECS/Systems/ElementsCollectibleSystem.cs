@@ -2,6 +2,7 @@
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine.InputSystem;
+using UnityEngine.LightTransport;
 
 [UpdateAfter(typeof(CollectibleSystem))]
 public partial class ElementsCollectibleSystem : SystemBase
@@ -42,7 +43,13 @@ public partial class ElementsCollectibleSystem : SystemBase
             var elementsEntity = elementsEntities[i];
             var elementsComponentData = elementsComponentArray[i];
             buffer = OnElementPickedUp(elementsComponentData);
-            ecb.DestroyEntity(elementsEntity);
+            if (SystemAPI.HasComponent<PlayerComponentData>(elementsEntity))
+            {
+                ecb.RemoveComponent<ElementCollectibleComponentData>(elementsEntity);
+            } else
+            {
+                ecb.DestroyEntity(elementsEntity);
+            }
         }
         ElementsUpdated?.Invoke(buffer);
         elementsEntities.Dispose();
@@ -63,5 +70,10 @@ public partial class ElementsCollectibleSystem : SystemBase
             }
         }
         return elementsBuffer;
+    }
+
+    public void UpdateElements(DynamicBuffer<CollectibleElement> buffer)
+    {
+        ElementsUpdated?.Invoke(buffer);
     }
 }
