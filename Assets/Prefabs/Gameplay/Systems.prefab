@@ -439,6 +439,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletSpawnerAuthoring
   _bulletPrefabs:
   - {fileID: 3969580432948982012, guid: ad3f9d771e8084f4a82a4402b075ae07, type: 3}
+  - {fileID: 2779631696019403757, guid: b509e5171c6276c4b911f9afc4f3fad6, type: 3}
+  - {fileID: 2779631696019403757, guid: 37141085eae233c47a3c8457c8ed9c88, type: 3}
+  - {fileID: 2779631696019403757, guid: f6a6e6763bc30e7449065ce94db8e06a, type: 3}
   _bulletCount: 0
 --- !u!1 &4939265530239171389
 GameObject:
@@ -524,6 +527,8 @@ MonoBehaviour:
   _collectibleData:
   - {fileID: 11400000, guid: a0344557dbb1c4240b31e0c81e262172, type: 2}
   - {fileID: 11400000, guid: fbf069ec6ab972749804114c2328b23e, type: 2}
+  - {fileID: 11400000, guid: b31f158245fd1f74aa9ba4514b2306cc, type: 2}
+  - {fileID: 11400000, guid: e9563a4b1fd0b1341a9b1ee16a0e08ee, type: 2}
 --- !u!1 &7636069136204276679
 GameObject:
   m_ObjectHideFlags: 0
