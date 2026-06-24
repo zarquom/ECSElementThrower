@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public partial class PlayerInputSystem : SystemBase
 {
     private InputControls.PlayerMapActions _playerMapActions;
+    public event Action<CollectibleType> CollectibleTypeChanged;
 
     public void SetPlayerMapActions(InputControls.PlayerMapActions playerMapActions)
     {
@@ -33,6 +34,7 @@ public partial class PlayerInputSystem : SystemBase
             collectibleInt = Enum.GetNames(typeof(CollectibleType)).Length - 1;
         }
         playerData.CollectibleType = (CollectibleType)collectibleInt;
+        CollectibleTypeChanged?.Invoke(playerData.CollectibleType);
         SystemAPI.SetComponent(player, playerData);
     }
 
@@ -44,9 +46,10 @@ public partial class PlayerInputSystem : SystemBase
         collectibleInt++;
         if(collectibleInt >= Enum.GetNames(typeof(CollectibleType)).Length)
         {
-            collectibleInt = 0;
+            collectibleInt = 1;
         }
         playerData.CollectibleType = (CollectibleType)collectibleInt;
+        CollectibleTypeChanged?.Invoke(playerData.CollectibleType);
         SystemAPI.SetComponent(player, playerData);
     }
 

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e29b82ef34ea1634da853415283a6b15, type: 3}
   m_Name: CollectibleWind
   m_EditorClassIdentifier: Assembly-CSharp::Data.CollectibleSO
-  Type: 3
+  Type: 4
   Points: 50

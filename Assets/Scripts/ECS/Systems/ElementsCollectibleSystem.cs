@@ -24,7 +24,9 @@ public partial class ElementsCollectibleSystem : SystemBase
 
     private void OnLevelLoaded()
     {
-        ElementsUpdated?.Invoke(new DynamicBuffer<CollectibleElement>());
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        DynamicBuffer<CollectibleElement> elementsBuffer = SystemAPI.GetBuffer<CollectibleElement>(player);
+        ElementsUpdated?.Invoke(elementsBuffer);
     }
 
     protected override void OnStopRunning()

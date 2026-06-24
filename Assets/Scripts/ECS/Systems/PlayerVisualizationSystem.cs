@@ -25,7 +25,6 @@ public partial struct PlayerVisualizationSystem : ISystem
         var playerVisualizationComponentData = _playerEntityQuery.GetSingleton<PlayerVisualizationComponentData>();
 
         var playerVisualizationGameObject = Object.Instantiate(playerVisualizationComponentData.PlayerVisualization);
-
         state.EntityManager.AddComponentObject(playerEntity, new PlayerManagedComponentData
         {
             AnimatorData = playerVisualizationGameObject.GetComponent<Animator>(),
