@@ -28,7 +28,8 @@ public class PlayerBaker : Baker<PlayerAuthoring>
             JumpForce = authoring.JumpForce,
             IsDead = false,
             Health = authoring.Health,
-            Throwing = false
+            Throwing = false,
+            CollectibleType = CollectibleType.Fire
         });
         var buffer = AddBuffer<CollectibleElement>(entity);
         buffer.Add(new CollectibleElement { Type = CollectibleType.Fire, Amount = 0 });

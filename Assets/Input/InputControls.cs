@@ -127,6 +127,24 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeElementRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""cbbb1607-7a4d-4d5b-bc06-b63c3fe30619"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeElementLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""26cfac06-4397-4499-b18d-99a7885db2ce"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -195,6 +213,28 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
                     ""action"": ""Switch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e123fa56-d7cf-405e-8364-c2af02148b90"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeElementRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18294831-16fe-49e7-b8a4-9d16e5c8e9c9"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeElementLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +247,8 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         m_PlayerMap_Jump = m_PlayerMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMap_Throw = m_PlayerMap.FindAction("Throw", throwIfNotFound: true);
         m_PlayerMap_Switch = m_PlayerMap.FindAction("Switch", throwIfNotFound: true);
+        m_PlayerMap_ChangeElementRight = m_PlayerMap.FindAction("ChangeElementRight", throwIfNotFound: true);
+        m_PlayerMap_ChangeElementLeft = m_PlayerMap.FindAction("ChangeElementLeft", throwIfNotFound: true);
     }
 
     ~@InputControls()
@@ -291,6 +333,8 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMap_Jump;
     private readonly InputAction m_PlayerMap_Throw;
     private readonly InputAction m_PlayerMap_Switch;
+    private readonly InputAction m_PlayerMap_ChangeElementRight;
+    private readonly InputAction m_PlayerMap_ChangeElementLeft;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerMap".
     /// </summary>
@@ -318,6 +362,14 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMap/Switch".
         /// </summary>
         public InputAction @Switch => m_Wrapper.m_PlayerMap_Switch;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMap/ChangeElementRight".
+        /// </summary>
+        public InputAction @ChangeElementRight => m_Wrapper.m_PlayerMap_ChangeElementRight;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMap/ChangeElementLeft".
+        /// </summary>
+        public InputAction @ChangeElementLeft => m_Wrapper.m_PlayerMap_ChangeElementLeft;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -356,6 +408,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Switch.started += instance.OnSwitch;
             @Switch.performed += instance.OnSwitch;
             @Switch.canceled += instance.OnSwitch;
+            @ChangeElementRight.started += instance.OnChangeElementRight;
+            @ChangeElementRight.performed += instance.OnChangeElementRight;
+            @ChangeElementRight.canceled += instance.OnChangeElementRight;
+            @ChangeElementLeft.started += instance.OnChangeElementLeft;
+            @ChangeElementLeft.performed += instance.OnChangeElementLeft;
+            @ChangeElementLeft.canceled += instance.OnChangeElementLeft;
         }
 
         /// <summary>
@@ -379,6 +437,12 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
             @Switch.started -= instance.OnSwitch;
             @Switch.performed -= instance.OnSwitch;
             @Switch.canceled -= instance.OnSwitch;
+            @ChangeElementRight.started -= instance.OnChangeElementRight;
+            @ChangeElementRight.performed -= instance.OnChangeElementRight;
+            @ChangeElementRight.canceled -= instance.OnChangeElementRight;
+            @ChangeElementLeft.started -= instance.OnChangeElementLeft;
+            @ChangeElementLeft.performed -= instance.OnChangeElementLeft;
+            @ChangeElementLeft.canceled -= instance.OnChangeElementLeft;
         }
 
         /// <summary>
@@ -447,5 +511,19 @@ public partial class @InputControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwitch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeElementRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeElementRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChangeElementLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChangeElementLeft(InputAction.CallbackContext context);
     }
 }

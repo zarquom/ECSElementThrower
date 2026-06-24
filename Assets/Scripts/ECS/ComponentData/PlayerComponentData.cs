@@ -9,6 +9,7 @@ public struct PlayerComponentData : IComponentData
     public bool IsDead;
     public float Health;
     public bool Throwing;
+    public CollectibleType CollectibleType;
 }
 public struct CollectibleElement : IBufferElementData
 {

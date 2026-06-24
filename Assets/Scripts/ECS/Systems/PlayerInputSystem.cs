@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Entities;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,36 @@ public partial class PlayerInputSystem : SystemBase
         _playerMapActions.Throw.performed += OnThrowPerformed;
         _playerMapActions.Switch.started += OnSwitchStarted;
         _playerMapActions.Switch.canceled += OnSwitchCancelled;
+        _playerMapActions.ChangeElementRight.performed += OnChangeElementRightPerformed;
+        _playerMapActions.ChangeElementLeft.performed += OnChangeElementLeftPerformed;
+    }
+
+    private void OnChangeElementLeftPerformed(InputAction.CallbackContext context)
+    {
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        PlayerComponentData playerData = SystemAPI.GetComponent<PlayerComponentData>(player);
+        int collectibleInt = (int)playerData.CollectibleType;
+        collectibleInt--;
+        if (collectibleInt <= 0)
+        {
+            collectibleInt = Enum.GetNames(typeof(CollectibleType)).Length - 1;
+        }
+        playerData.CollectibleType = (CollectibleType)collectibleInt;
+        SystemAPI.SetComponent(player, playerData);
+    }
+
+    private void OnChangeElementRightPerformed(InputAction.CallbackContext context)
+    {
+        Entity player = SystemAPI.GetSingletonEntity<PlayerComponentData>();
+        PlayerComponentData playerData = SystemAPI.GetComponent<PlayerComponentData>(player);
+        int collectibleInt = (int)playerData.CollectibleType;
+        collectibleInt++;
+        if(collectibleInt >= Enum.GetNames(typeof(CollectibleType)).Length)
+        {
+            collectibleInt = 0;
+        }
+        playerData.CollectibleType = (CollectibleType)collectibleInt;
+        SystemAPI.SetComponent(player, playerData);
     }
 
     private void OnThrowPerformed(InputAction.CallbackContext callbackContext)
