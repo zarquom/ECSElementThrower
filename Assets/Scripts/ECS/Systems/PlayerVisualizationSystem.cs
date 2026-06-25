@@ -29,7 +29,7 @@ public partial struct PlayerVisualizationSystem : ISystem
         {
             AnimatorData = playerVisualizationGameObject.GetComponent<Animator>(),
             GameObjectData = playerVisualizationGameObject.gameObject,
-            TransformData = playerVisualizationGameObject.transform
+            TransformData = playerVisualizationGameObject.GetComponentInChildren<PlayerVisualizationDownComponent>()
         });
     }
 

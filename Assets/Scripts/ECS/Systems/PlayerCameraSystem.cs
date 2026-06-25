@@ -31,20 +31,20 @@ public partial class PlayerCameraSystem : SystemBase
         var cameraComponentData = _playerEntityQuery.GetSingleton<CameraComponentData>();
         float deltaTime = SystemAPI.Time.DeltaTime;
         float desiredOrthographicSize = cameraComponentData.IsCenteredOnPlayer ? 20f : 120f;
+        var playerManagedComponentData = _playerEntityQuery.GetSingleton<PlayerManagedComponentData>();
         if (cameraComponentData.IsCenteredOnPlayer)
         {
             _playerCamera.Lens.OrthographicSize = math.lerp(_playerCamera.Lens.OrthographicSize, desiredOrthographicSize, deltaTime * 5f);
+            playerManagedComponentData.TransformData.transform.localPosition = math.lerp(playerManagedComponentData.TransformData.transform.localPosition, Vector3.zero, deltaTime * 5f);
         }
         else
         {
             _playerCamera.Lens.OrthographicSize = math.lerp(_playerCamera.Lens.OrthographicSize, desiredOrthographicSize, deltaTime * 5f);
+            playerManagedComponentData.TransformData.transform.localPosition = math.lerp(playerManagedComponentData.TransformData.transform.localPosition, new Vector3(0f,-60f,0f), deltaTime * 5f);
         }
-        if (_playerCamera.Follow != null)
+        if (_playerCamera.Follow != playerManagedComponentData.TransformData.transform)
         {
-            return;
+            _playerCamera.Follow = playerManagedComponentData.TransformData.transform;
         }
-
-        var playerManagedComponentData = _playerEntityQuery.GetSingleton<PlayerManagedComponentData>();
-        _playerCamera.Follow = playerManagedComponentData.TransformData;
     }
 }

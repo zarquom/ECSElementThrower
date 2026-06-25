@@ -5,5 +5,5 @@ public class PlayerManagedComponentData : ICleanupComponentData
 {
     public Animator AnimatorData;
     public GameObject GameObjectData;
-    public Transform TransformData;
+    public PlayerVisualizationDownComponent TransformData;
 }
