@@ -56,6 +56,7 @@ public partial struct PlayerThrowSystem : ISystem
         state.EntityManager.SetComponentData(elementEntity, localTransform);
         state.EntityManager.SetComponentData(elementEntity, elementComponentData);
         state.EntityManager.SetComponentData(elementEntity, elementPhysicsVelocity);
+        state.EntityManager.AddComponent<ElementScoreableComponentData>(elementEntity);
     }
 
     [BurstCompile]

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5034422483889604729}
   - component: {fileID: 7239297764282570042}
   m_Layer: 5
-  m_Name: HealthText
+  m_Name: PointsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Health: 0'
+  m_text: 'Points: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.8
+  m_fontSize: 52.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -146,11 +146,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1082365231122319436}
-  - component: {fileID: 2000508043600189073}
-  - component: {fileID: 4602789231784997908}
-  - component: {fileID: 8255979864387869804}
+  - component: {fileID: 2849208508943337038}
+  - component: {fileID: 6193911964501088218}
+  - component: {fileID: 1891446015138301406}
   m_Layer: 5
-  m_Name: Health
+  m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ RectTransform:
   m_AnchoredPosition: {x: 101.81198, y: -38.5838}
   m_SizeDelta: {x: 203.624, y: 77.1676}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2000508043600189073
+--- !u!114 &2849208508943337038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,11 +185,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7743630833323523770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c3c8f7a59abe44f8e70c9f7b5e62aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 432371383c502ee4e845037b8e7823c0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthModel
-  _healthText: {fileID: 7239297764282570042}
---- !u!114 &4602789231784997908
+  m_EditorClassIdentifier: Assembly-CSharp::PointsModel
+  _pointsText: {fileID: 7239297764282570042}
+  _pointsAnimationTime: 1
+--- !u!114 &6193911964501088218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,10 +199,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7743630833323523770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e38343e1299c748862e4f919f338cd, type: 3}
+  m_Script: {fileID: 11500000, guid: ae1afb1eb694e5042913b6055df2bcd3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthView
---- !u!114 &8255979864387869804
+  m_EditorClassIdentifier: Assembly-CSharp::PointsView
+--- !u!114 &1891446015138301406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,6 +211,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7743630833323523770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d221b2fbe41b90e438929c240984ea78, type: 3}
+  m_Script: {fileID: 11500000, guid: 48c4cb8565ba9eb48b95afe3db08489c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthController
+  m_EditorClassIdentifier: Assembly-CSharp::PointsController

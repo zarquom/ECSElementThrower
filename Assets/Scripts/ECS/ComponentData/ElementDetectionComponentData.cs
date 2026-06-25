@@ -6,5 +6,6 @@ public struct ElementDetectionComponentData : IComponentData
 {
     public float3 OverlapDetectionOffset;
     public CollisionFilter DeadZoneCollisionFilter;
-    public CollisionFilter EnemyCollisionFilter;
+    public CollisionFilter CollectCollisionFilter;
+    public CollisionFilter NotCollectCollisionFilter;
 }

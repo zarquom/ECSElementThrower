@@ -10,19 +10,25 @@ public class ElementDetectionAuthoring : MonoBehaviour
     [SerializeField] private float3 _overlapDetectionOffset;
     [SerializeField] private PhysicsCategoryTags _sharedBelongsTo;
     [SerializeField] private PhysicsCategoryTags _deadZoneCollideWith;
-    [SerializeField] private PhysicsCategoryTags _enemyCollideWith;
+    [SerializeField] private PhysicsCategoryTags _collectCollideWith;
+    [SerializeField] private PhysicsCategoryTags _notcollectCollisionFilter;
 
     public float3 OverlapDetectionOffset => _overlapDetectionOffset;
 
-    public CollisionFilter EnemyCollisionFilter => new CollisionFilter()
+    public CollisionFilter CollectCollisionFilter => new CollisionFilter()
     {
         BelongsTo = _sharedBelongsTo.Value,
-        CollidesWith = _enemyCollideWith.Value
+        CollidesWith = _collectCollideWith.Value
     };
     public CollisionFilter DeadZoneCollisionFilter => new CollisionFilter()
     {
         BelongsTo = _sharedBelongsTo.Value,
         CollidesWith = _deadZoneCollideWith.Value
+    };
+    public CollisionFilter NotCollectCollisionFilter => new CollisionFilter()
+    {
+        BelongsTo = _sharedBelongsTo.Value,
+        CollidesWith = _notcollectCollisionFilter.Value
     };
     public class ElementDetectionBaker : Baker<ElementDetectionAuthoring>
     {
@@ -33,7 +39,8 @@ public class ElementDetectionAuthoring : MonoBehaviour
             {
                 OverlapDetectionOffset = authoring.OverlapDetectionOffset,
                 DeadZoneCollisionFilter = authoring.DeadZoneCollisionFilter,
-                EnemyCollisionFilter = authoring.EnemyCollisionFilter
+                CollectCollisionFilter = authoring.CollectCollisionFilter,
+                NotCollectCollisionFilter = authoring.NotCollectCollisionFilter
             });
         }
     }

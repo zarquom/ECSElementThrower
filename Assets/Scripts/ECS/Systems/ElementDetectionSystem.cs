@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Unity.Assertions;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -7,6 +8,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.LowLevelPhysics2D;
 
 [BurstCompile]
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup), OrderLast = true)]
@@ -15,7 +17,8 @@ public partial struct ElementDetectionSystem : ISystem, ISystemStartStop
     private float3 _overlapDetectionOffset;
     private CollisionFilter _deadZoneCollisionFilter;
     private CollisionFilter _groundCollisionFilter;
-    private CollisionFilter _enemyCollisionFilter;
+    private CollisionFilter _collectCollisionFilter;
+    private CollisionFilter _notcollectCollisionFilter;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -33,7 +36,8 @@ public partial struct ElementDetectionSystem : ISystem, ISystemStartStop
         ElementDetectionComponentData detectionData = SystemAPI.GetComponent<ElementDetectionComponentData>(player);
         _overlapDetectionOffset = detectionData.OverlapDetectionOffset;
         _deadZoneCollisionFilter = detectionData.DeadZoneCollisionFilter;
-        _enemyCollisionFilter = detectionData.EnemyCollisionFilter;
+        _collectCollisionFilter = detectionData.CollectCollisionFilter;
+        _notcollectCollisionFilter = detectionData.NotCollectCollisionFilter;
     }
 
     [BurstCompile]
@@ -54,7 +58,8 @@ public partial struct ElementDetectionSystem : ISystem, ISystemStartStop
             CollisionWorld = collisionWorld,
             OverlapDetectionOffset = _overlapDetectionOffset,
             DeadZoneCollisionFilter = _deadZoneCollisionFilter,
-            EnemyCollisionFilter = _enemyCollisionFilter,
+            CollectCollisionFilter = _collectCollisionFilter,
+            NotCollectCollisionFilter = _notcollectCollisionFilter,
             Ecb = GetEntityCommandBuffer(ref state)
         }.Schedule();
     }
@@ -76,11 +81,12 @@ public partial struct ElementDetectionJob : IJobEntity
     [Unity.Collections.ReadOnly] public CollisionWorld CollisionWorld;
     [Unity.Collections.ReadOnly] public float3 OverlapDetectionOffset;
     public CollisionFilter DeadZoneCollisionFilter;
-    public CollisionFilter EnemyCollisionFilter;
+    public CollisionFilter CollectCollisionFilter;
+    public CollisionFilter NotCollectCollisionFilter;
     public EntityCommandBuffer Ecb;
 
     [BurstCompile]
-    private unsafe void Execute(in Entity elementEntity, ref ElementComponentData elementComponentData, in PhysicsCollider collider, in LocalTransform localTransform)
+    private unsafe void Execute(in Entity elementEntity, ref ElementComponentData elementComponentData, in ElementScoreableComponentData scorableComponent, in PhysicsCollider collider, in LocalTransform localTransform)
     {
         var sphereCollider = (Unity.Physics.SphereCollider*)collider.ColliderPtr;
         var sphereGeometry = sphereCollider->Geometry;
@@ -89,36 +95,39 @@ public partial struct ElementDetectionJob : IJobEntity
         if (isRemoved)
         {
             Ecb.SetEnabled(elementEntity, false);
-            //Debug.Log("Is removed");
             return;
         }
-        //HandleGenericDetectionForManyHits<PlayerDamagedComponentData>(localTransform, boxGeometry, EnemyCollisionFilter);
-
-    }
-    [BurstCompile]
-    private void HandleGenericDetectionForManyHits<T>(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry, CollisionFilter collisionFilter) where T : unmanaged, IComponentData
-    {
-        NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
-        bool isCOllision = OverlappingBox(localTransform, boxGeometry, ref hits, collisionFilter);
-        if (isCOllision)
+        bool isInCollectionZone = CheckSphere(localTransform, sphereGeometry, CollectCollisionFilter);
+        if (isInCollectionZone)
         {
-            for (int i = 0; i < hits.Length; i++)
+            var pointsEntity = Ecb.CreateEntity();
+            Ecb.AddComponent(pointsEntity, new PointsComponentData
             {
-                Ecb.AddComponent(hits[i].Entity, new T());
-            }
+                Points = 1
+            });
+            Ecb.RemoveComponent<ElementScoreableComponentData>(elementEntity);
         }
-        hits.Dispose();
-    }
-
-    [BurstCompile]
-    private bool OverlappingBox(LocalTransform localTransform, Unity.Physics.BoxGeometry boxGeometry, ref NativeList<DistanceHit> hits, CollisionFilter collisionFilter)
-    {
-        return CollisionWorld.OverlapBox(localTransform.Position + OverlapDetectionOffset, new quaternion(0, 0, 0, 1), boxGeometry.Size / 2f, ref hits, collisionFilter);
     }
 
     [BurstCompile]
     private bool CheckSphere(LocalTransform localTransform, Unity.Physics.SphereGeometry sphereGeometry, CollisionFilter collisionFilter)
     {
         return CollisionWorld.CheckSphere(localTransform.Position + OverlapDetectionOffset, sphereGeometry.Radius, collisionFilter);
+    }
+
+    [BurstCompile]
+    private void SetCollisionFilter(PhysicsCollider collider, uint collidesWith)
+    {
+        Assert.IsTrue(collider.Value.Value.CollisionType == CollisionType.Convex);
+
+        unsafe
+        {
+            var header = (ConvexCollider*)collider.ColliderPtr;
+            var filter = header->GetCollisionFilter();
+
+            filter.CollidesWith = collidesWith;
+
+            header->SetCollisionFilter(filter);
+        }
     }
 }
