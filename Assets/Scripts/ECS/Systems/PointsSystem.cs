@@ -12,6 +12,7 @@ public partial class PointsSystem : SystemBase
     private LevelSystem _levelSystem;
     private float _points;
     private float _timer;
+    private bool _gameEnd;
     protected override void OnCreate()
     {
         _pointsEntityQuery = SystemAPI.QueryBuilder().WithAll<PointsComponentData>().Build();
@@ -27,6 +28,7 @@ public partial class PointsSystem : SystemBase
     {
         _points = 0;
         _timer = 60;
+        _gameEnd = false;
         PointsUpdated?.Invoke(_points);
         TimerUpdated?.Invoke(_timer);
     }
@@ -39,6 +41,15 @@ public partial class PointsSystem : SystemBase
     protected override void OnUpdate()
     {
         _timer -= SystemAPI.Time.DeltaTime;
+        if (_timer < 0f)
+        {
+            _timer = 0f;
+            if (!_gameEnd)
+            {
+                _gameEnd = true;
+                EntityManager.AddComponent<NextLevelComponentData>(SystemAPI.GetSingletonEntity<PlayerComponentData>());
+            }
+        }
         TimerUpdated?.Invoke(_timer);
         NativeArray<Entity> pointsEntities = _pointsEntityQuery.ToEntityArray(Allocator.Temp);
         NativeArray<PointsComponentData> pointsComponentArray = _pointsEntityQuery.ToComponentDataArray<PointsComponentData>(Allocator.Temp);
