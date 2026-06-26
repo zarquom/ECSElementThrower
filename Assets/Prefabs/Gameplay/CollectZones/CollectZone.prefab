@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 867899734754454378}
   - component: {fileID: 9019738504542520524}
   m_Layer: 0
-  m_Name: CollectZoneFire
+  m_Name: CollectZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

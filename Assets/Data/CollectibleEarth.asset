@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CollectibleEarth
   m_EditorClassIdentifier: Assembly-CSharp::Data.CollectibleSO
   Type: 3
-  Points: 50
+  Points: 20

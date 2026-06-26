@@ -6,10 +6,12 @@ using Unity.Entities;
 public partial class PointsSystem : SystemBase
 {
     public event Action<float> PointsUpdated;
+    public event Action<float> TimerUpdated;
 
     private EntityQuery _pointsEntityQuery;
     private LevelSystem _levelSystem;
     private float _points;
+    private float _timer;
     protected override void OnCreate()
     {
         _pointsEntityQuery = SystemAPI.QueryBuilder().WithAll<PointsComponentData>().Build();
@@ -24,7 +26,9 @@ public partial class PointsSystem : SystemBase
     private void OnLevelLoaded()
     {
         _points = 0;
+        _timer = 60;
         PointsUpdated?.Invoke(_points);
+        TimerUpdated?.Invoke(_timer);
     }
 
     protected override void OnStopRunning()
@@ -34,6 +38,8 @@ public partial class PointsSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        _timer -= SystemAPI.Time.DeltaTime;
+        TimerUpdated?.Invoke(_timer);
         NativeArray<Entity> pointsEntities = _pointsEntityQuery.ToEntityArray(Allocator.Temp);
         NativeArray<PointsComponentData> pointsComponentArray = _pointsEntityQuery.ToComponentDataArray<PointsComponentData>(Allocator.Temp);
         for (int i = 0; i < pointsComponentArray.Length; i++)

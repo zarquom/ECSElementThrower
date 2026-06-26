@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CollectibleWater
   m_EditorClassIdentifier: Assembly-CSharp::Data.CollectibleSO
   Type: 2
-  Points: 50
+  Points: 20
