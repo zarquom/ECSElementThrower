@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: _bulletSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6770837982441628613, guid: ad3f9d771e8084f4a82a4402b075ae07, type: 3}
+      propertyPath: _collectibleType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 9098796426559782774, guid: ad3f9d771e8084f4a82a4402b075ae07, type: 3}
       propertyPath: m_PrefabInstanceID
       value: 0

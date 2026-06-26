@@ -8,4 +8,5 @@ public struct ElementComponentData : IComponentData
     public float3 BulletDirection;
     public float3 BulletRotation;
     public float BulletSpeed;
+    public CollectibleType CollectibleType;
 }

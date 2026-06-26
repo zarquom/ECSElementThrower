@@ -60,7 +60,8 @@ public partial struct ElementDetectionSystem : ISystem, ISystemStartStop
             DeadZoneCollisionFilter = _deadZoneCollisionFilter,
             CollectCollisionFilter = _collectCollisionFilter,
             NotCollectCollisionFilter = _notcollectCollisionFilter,
-            Ecb = GetEntityCommandBuffer(ref state)
+            Ecb = GetEntityCommandBuffer(ref state),
+            ZoneLookup = SystemAPI.GetComponentLookup<CollectingZoneComponentData>(true)
         }.Schedule();
     }
     [BurstCompile]
@@ -84,6 +85,7 @@ public partial struct ElementDetectionJob : IJobEntity
     public CollisionFilter CollectCollisionFilter;
     public CollisionFilter NotCollectCollisionFilter;
     public EntityCommandBuffer Ecb;
+    [Unity.Collections.ReadOnly] public ComponentLookup<CollectingZoneComponentData> ZoneLookup;
 
     [BurstCompile]
     private unsafe void Execute(in Entity elementEntity, ref ElementComponentData elementComponentData, in ElementScoreableComponentData scorableComponent, in PhysicsCollider collider, in LocalTransform localTransform)
@@ -97,37 +99,36 @@ public partial struct ElementDetectionJob : IJobEntity
             Ecb.SetEnabled(elementEntity, false);
             return;
         }
-        bool isInCollectionZone = CheckSphere(localTransform, sphereGeometry, CollectCollisionFilter);
-        if (isInCollectionZone)
+        NativeList<DistanceHit> hits = new NativeList<DistanceHit>(Allocator.TempJob);
+        bool isInCollectionZone = OverlapSphere(localTransform, sphereGeometry, CollectCollisionFilter, ref hits);
+        if (isInCollectionZone && ZoneLookup.HasComponent(hits[0].Entity))
         {
+            CollectingZoneComponentData zoneCData = ZoneLookup[hits[0].Entity];
+            float amountGranted = -0.5f;
+            //Debug.Log("ElementDetectionJob zoneCData " + zoneCData.CollectibleType.ToString() + " elementComponentData " + elementComponentData.CollectibleType.ToString());
+            if (zoneCData.CollectibleType == elementComponentData.CollectibleType)
+            {
+                amountGranted = 1f;
+            }
             var pointsEntity = Ecb.CreateEntity();
             Ecb.AddComponent(pointsEntity, new PointsComponentData
             {
-                Points = 1
+                Points = amountGranted
             });
             Ecb.RemoveComponent<ElementScoreableComponentData>(elementEntity);
         }
+        hits.Dispose();
+    }
+
+    [BurstCompile]
+    private bool OverlapSphere(LocalTransform localTransform, Unity.Physics.SphereGeometry sphereGeometry, CollisionFilter collisionFilter, ref NativeList<DistanceHit> hits)
+    {
+        return CollisionWorld.OverlapSphere(localTransform.Position + OverlapDetectionOffset, sphereGeometry.Radius, ref hits, collisionFilter);
     }
 
     [BurstCompile]
     private bool CheckSphere(LocalTransform localTransform, Unity.Physics.SphereGeometry sphereGeometry, CollisionFilter collisionFilter)
     {
         return CollisionWorld.CheckSphere(localTransform.Position + OverlapDetectionOffset, sphereGeometry.Radius, collisionFilter);
-    }
-
-    [BurstCompile]
-    private void SetCollisionFilter(PhysicsCollider collider, uint collidesWith)
-    {
-        Assert.IsTrue(collider.Value.Value.CollisionType == CollisionType.Convex);
-
-        unsafe
-        {
-            var header = (ConvexCollider*)collider.ColliderPtr;
-            var filter = header->GetCollisionFilter();
-
-            filter.CollidesWith = collidesWith;
-
-            header->SetCollisionFilter(filter);
-        }
     }
 }

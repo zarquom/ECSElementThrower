@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5305709112091817018}
   - component: {fileID: 9078285115787624019}
   - component: {fileID: 867899734754454378}
+  - component: {fileID: 9019738504542520524}
   m_Layer: 0
-  m_Name: CollectZone
+  m_Name: CollectZoneFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,3 +294,16 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &9019738504542520524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6064841965355583541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1de190b454d414ebaa137479ef3752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectingZoneAuthoring
+  _collectibleType: 1

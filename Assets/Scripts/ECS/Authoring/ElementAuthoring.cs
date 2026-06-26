@@ -7,10 +7,12 @@ public class ElementAuthoring : MonoBehaviour
     [SerializeField] private float3 _bulletDirection;
     [SerializeField] private float3 _bulletRotation;
     [SerializeField] private float _bulletSpeed;
+    [SerializeField] private CollectibleType _collectibleType;
 
     public float BulletSpeed => _bulletSpeed;
     public float3 BulletDirection => _bulletDirection;
     public float3 BulletRotation => _bulletRotation;
+    public CollectibleType CollectibleType => _collectibleType;
 
 }
 public class BulletBaker : Baker<ElementAuthoring>
@@ -22,7 +24,8 @@ public class BulletBaker : Baker<ElementAuthoring>
         {
             BulletDirection = authoring.BulletDirection,
             BulletRotation = authoring.BulletRotation,
-            BulletSpeed = authoring.BulletSpeed
+            BulletSpeed = authoring.BulletSpeed,
+            CollectibleType = authoring.CollectibleType
         });
     }
 }

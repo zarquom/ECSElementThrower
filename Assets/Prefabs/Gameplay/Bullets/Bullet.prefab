@@ -115,6 +115,7 @@ MonoBehaviour:
     y: 0
     z: 0
   _bulletSpeed: 15
+  _collectibleType: 1
 --- !u!114 &5401364017436041754
 MonoBehaviour:
   m_ObjectHideFlags: 0
