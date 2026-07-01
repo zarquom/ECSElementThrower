@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class NextLevelWindowController : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject _container;
     [SerializeField] private Button _nextLevelButton;
+    [SerializeField] private TextMeshProUGUI _pointsText;
 
     private LevelSystem _levelSystem;
     private void Awake()
@@ -37,5 +39,6 @@ public class NextLevelWindowController : MonoBehaviour
     private void OnNextLevelEvent()
     {
         _container.SetActive(true);
+        _pointsText.text = $"Points: {_levelSystem.CurrentLevelPoints:F}";
     }
 }

@@ -48,6 +48,7 @@ public partial class PointsSystem : SystemBase
             {
                 _gameEnd = true;
                 EntityManager.AddComponent<NextLevelComponentData>(SystemAPI.GetSingletonEntity<PlayerComponentData>());
+                _levelSystem.SetLevelPoints(_points);
             }
         }
         TimerUpdated?.Invoke(_timer);

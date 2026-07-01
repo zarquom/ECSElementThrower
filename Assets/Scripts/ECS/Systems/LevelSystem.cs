@@ -17,6 +17,11 @@ public partial class LevelSystem : SystemBase
     private Entity _currentEntityScene;
     private SceneType _currentScene;
     private int _currentLevelIndex;
+    private float _currentTotalPoints;
+    private float _currentLevelPoints;
+
+    public float CurrentTotalPoints => _currentTotalPoints;
+    public float CurrentLevelPoints => _currentLevelPoints;
 
     public async void LoadScene(SceneType sceneType, LoadSceneMode sceneMode)
     {
@@ -43,6 +48,7 @@ public partial class LevelSystem : SystemBase
         await LoadNextSubScene();
         if (isLoadingScreen)
             await LoadingScreen(false);
+        _currentLevelPoints = 0;
     }
 
     private async UniTask LoadNextSubScene()
@@ -78,8 +84,15 @@ public partial class LevelSystem : SystemBase
 
     private void SceneLoaded(Scene sceneLoaded, LoadSceneMode loadSceneMode)
     {
+        if (sceneLoaded.buildIndex != (int)SceneType.Menu)
+        {
+            _currentTotalPoints = 0;
+            _currentLevelPoints = 0;
+        }
         if (sceneLoaded.buildIndex != (int)SceneType.Game)
+        {
             return;
+        }
 
         _currentLevelIndex = 0;
         _currentEntityScene = Entity.Null;
@@ -115,5 +128,11 @@ public partial class LevelSystem : SystemBase
     protected override void OnDestroy()
     {
         SceneManager.sceneLoaded -= SceneLoaded;
+    }
+
+    public void SetLevelPoints(float points)
+    {
+        _currentLevelPoints = points;
+        _currentTotalPoints += points;
     }
 }
