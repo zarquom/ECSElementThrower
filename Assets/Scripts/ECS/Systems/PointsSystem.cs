@@ -44,7 +44,7 @@ public partial class PointsSystem : SystemBase
         if (_timer < 0f)
         {
             _timer = 0f;
-            if (!_gameEnd)
+            if (!_gameEnd && SystemAPI.HasSingleton<PlayerComponentData>())
             {
                 _gameEnd = true;
                 EntityManager.AddComponent<NextLevelComponentData>(SystemAPI.GetSingletonEntity<PlayerComponentData>());

@@ -40,6 +40,6 @@ public partial class GameOverSystem : SystemBase
         }
 
         GameOver?.Invoke(false);
-        EntityManager.DestroyEntity(playerEntity);
+        //EntityManager.DestroyEntity(playerEntity);
     }
 }
