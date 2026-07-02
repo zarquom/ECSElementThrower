@@ -58,6 +58,7 @@ public class GameOverWindowController : MonoBehaviour
     private void OnGameOverEvent(bool isPlayerDead)
     {
         _container.SetActive(true);
-        _text.text = isPlayerDead ? _winGameLocalization.GetLocalizedString() : _loseGameLocalization.GetLocalizedString();
+        string winText = isPlayerDead ? _winGameLocalization.GetLocalizedString() : _loseGameLocalization.GetLocalizedString();
+        _text.text = winText + $" Points: {_levelSystem.CurrentTotalPoints:F}";
     }
 }

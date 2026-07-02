@@ -992,14 +992,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverWindow
       objectReference: {fileID: 0}
-    - target: {fileID: 5299712087367956280, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 3.029419
-      objectReference: {fileID: 0}
-    - target: {fileID: 5299712087367956280, guid: 2aba1b16e0c363b40bfaec86399979cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -179.5589
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

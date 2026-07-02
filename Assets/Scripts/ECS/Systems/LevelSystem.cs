@@ -84,7 +84,7 @@ public partial class LevelSystem : SystemBase
 
     private void SceneLoaded(Scene sceneLoaded, LoadSceneMode loadSceneMode)
     {
-        if (sceneLoaded.buildIndex != (int)SceneType.Menu)
+        if (sceneLoaded.buildIndex == (int)SceneType.Menu)
         {
             _currentTotalPoints = 0;
             _currentLevelPoints = 0;
