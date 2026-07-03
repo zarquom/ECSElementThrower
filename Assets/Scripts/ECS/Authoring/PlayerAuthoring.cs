@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.Entities;
-using UnityEditor.Build.Pipeline;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+﻿using Unity.Entities;
 using UnityEngine;
 
 public class PlayerAuthoring : MonoBehaviour

@@ -46,6 +46,11 @@ MonoBehaviour:
     m_Localized: Cargando
     m_Metadata:
       m_Items: []
+  - m_Id: 18865225825697792
+    m_Localized: Usa shift para cambiar camara, Q y E para seleccionar elemento,
+      Space para tirar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

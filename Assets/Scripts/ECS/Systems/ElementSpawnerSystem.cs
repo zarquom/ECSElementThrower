@@ -3,7 +3,6 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEditor.PackageManager;
 
 [BurstCompile]
 [UpdateInGroup(typeof(SimulationSystemGroup))]

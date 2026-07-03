@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 33019892c061d6f48b59238617b1025d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ef1a619c43a5054a85d791ff8c3cb0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,7 +192,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 776ad11ac32ed414e8e91e806468a186, type: 2}
     - target: {fileID: 6064841965355583541, guid: 75c7c4365b3b9b74180ea4619b18eaec, type: 3}
       propertyPath: m_Name
-      value: CollectZoneFire
+      value: CollectZoneWind
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019738504542520524, guid: 75c7c4365b3b9b74180ea4619b18eaec, type: 3}
+      propertyPath: _collectibleType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9078285115787624019, guid: 75c7c4365b3b9b74180ea4619b18eaec, type: 3}
       propertyPath: m_PrefabInstanceID
